@@ -1,0 +1,93 @@
+.topMenu{
+	margin-top:40px;
+}
+
+nav > ul {
+	margin: 0px;
+	padding: 0px;
+	display : flex;
+	flex-direction:row;
+}
+
+nav > ul > li{
+	float: left;
+	display: flex;
+ 	 justify-content: space-between;
+ 	 width: 20%;
+ 	 list-style-type: none;
+}
+
+nav li{
+	list-style-type:none;
+}
+
+.submenu{
+	display: none;
+}
+
+nav{
+	width: 100%;
+	border-bottom: 1px solid #000;
+}
+
+nav > ul > li {
+	float: left;
+	position: relative;
+}
+
+nav > ul::after{
+	content:"";
+	clear: both;
+}
+
+nav a{
+	display: inline-block;
+	text-decoration: none;
+}
+nav > ul > li > a{
+	padding:20px 30px;
+	color: #000;
+	width : 100%;
+	text-align: center;
+}
+
+nav li:hover .submenu{
+	display: inline-block;
+	position: absolute;
+	top: 100%;
+	left: 0px;
+	padding: 0px;
+	z-index: 100000;
+}
+
+.submenu li{
+	border-bottom: 1px solid #CCC;
+	background-color: RGBa(199, 183, 75, 0.3);
+	
+}
+
+.submenu li a {
+	padding: 15px 30px;
+	font-size: 13px;
+	color: #222538;
+	width: 270px;
+}
+
+.bijoux::hover{
+	border-top: 5px solid #e44d26;
+	background-color: RGBa(228, 77, 38, 0.15);
+}
+
+
+nav > ul > li::hover a{
+	padding: 15px 30px 20px 30px;
+}
+nav ul a img{
+  width: 100%;
+}
+
+@media screen and (max-width: 768px){
+	nav ul {
+		flex-direction: column;
+	}
+}
