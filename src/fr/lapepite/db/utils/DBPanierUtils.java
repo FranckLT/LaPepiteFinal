@@ -14,15 +14,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * 
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
 public class DBPanierUtils {
     
-    private final static String QUERY_INSERT_PANIER = "INSERT INTO panier VALUES (null, (?))";
+    private final static String QUERY_INSERT_PANIER = "INSERT INTO panier VALUES ((?), (?))";
     
-     public static void insertPanier( Utilisateur utilisateur ) throws Exception, SQLException {
+     public static void insertPanier( Panier panier ) throws Exception, SQLException {
 
 		Connection con = null;
 		PreparedStatement stmtPanier = null;
@@ -35,7 +31,9 @@ public class DBPanierUtils {
                         
 			stmtPanier = con.prepareStatement(QUERY_INSERT_PANIER);
 	
-                        stmtPanier.setInt(1, utilisateur.getId());
+                        stmtPanier.setInt(1, panier.getId_panier());
+                        
+                        stmtPanier.setInt(2, panier.getId_panier());
                         
                         stmtPanier.executeUpdate();
 			

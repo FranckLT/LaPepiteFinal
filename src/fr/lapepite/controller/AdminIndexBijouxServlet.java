@@ -33,7 +33,12 @@ public class AdminIndexBijouxServlet extends HttpServlet {
         
         List<Bijoux> listBijoux = new ArrayList<>();
         
-        listBijoux = bijouxServices.getAll();
+        try {
+			listBijoux = bijouxServices.getAll();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         request.setAttribute("listBijoux", listBijoux);
         

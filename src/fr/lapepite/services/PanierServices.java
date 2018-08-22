@@ -9,6 +9,7 @@ package fr.lapepite.services;
 import fr.lapepite.db.utils.DBPanierUtils;
 import fr.lapepite.javabean.Bijoux;
 import fr.lapepite.javabean.LignePanier;
+import fr.lapepite.javabean.Panier;
 import fr.lapepite.javabean.Utilisateur;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -24,14 +25,13 @@ import javax.servlet.http.HttpSession;
  */
 public class PanierServices {
     
-    public void addPanier(HttpServletRequest request, HttpServletResponse response){
+    public void insertPanier(Panier panier){
+    	
         try {
-        //récup utilisateur
-        HttpSession session = request.getSession();
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         
         //Enregistrement en BD du panier
-        //DBPanierUtils.insertPanier(utilisateur);
+        DBPanierUtils.insertPanier(panier);
+        
         } catch (Exception ex) {
             Logger.getLogger(PanierServices.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -40,7 +40,7 @@ public class PanierServices {
     }
     
     
-    public void addBijouxToPanier(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    public void addBijouxToPanier(HttpServletRequest request) throws ServletException, IOException{
       
         //récup utilisateur
         HttpSession session = request.getSession();
@@ -53,12 +53,18 @@ public class PanierServices {
         //Création LignePanier
         LignePanier lignePanier = new LignePanier();       
         lignePanier.setBijoux(bijoux);
-        lignePanier.setQuantite(Integer.parseInt(request.getParameter("numberOfProduct")));
+        lignePanier.setQuantite_lignepanier(Integer.parseInt(request.getParameter("numberOfProduct")));
         
         //Ajout de la ligne au panier
-        utilisateur.getPanier().addLigneToPanier(lignePanier);
+        Panier panier = utilisateur.getPanier();
         
+        panier.addLigneToPanier(lignePanier);
         
+        System.out.println(lignePanier.getQuantite_lignepanier() +" "+lignePanier.getBijoux().getNom_bijoux()+ " Prix = "+lignePanier.getQuantite_lignepanier()*lignePanier.getBijoux().getPrix_bijoux() );
+        
+        UtilisateurServices utilisateurServices = new UtilisateurServices();
+        
+        utilisateurServices.setSession(request, utilisateur);
         
     }
 

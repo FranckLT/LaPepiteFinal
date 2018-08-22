@@ -5,32 +5,24 @@
 */
 package fr.lapepite.controller;
 
-import fr.lapepite.javabean.Utilisateur;
+import fr.lapepite.services.PanierServices;
 import fr.lapepite.services.UtilisateurServices;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.ProcessBuilder.Redirect;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
+
 public class RegisteringServlet extends HttpServlet {
-    
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+	
+	private UtilisateurServices utilisateurServices;
+	private final String REDIRECT_HOME = "/LaPepite/home";
+	private final String REDRIRECT_REGISTER = "/LaPepite/register";
+   
+	
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -39,30 +31,33 @@ public class RegisteringServlet extends HttpServlet {
         
     }
     
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+   
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        UtilisateurServices.registerUser(request, response);
-        
+    	
+    	utilisateurServices = new UtilisateurServices();
+    	
+    	boolean registeringOk =  utilisateurServices.registerUser(request);
+
+    	if (registeringOk) {
+    		// redirection si l'utilisateur à bien été enregistré
+    		response.sendRedirect(REDIRECT_HOME);
+    		
+		} else {
+			//redirection si l'utilisateur n'a pas pu être enregistré
+			response.sendRedirect(REDRIRECT_REGISTER);
+
+		}
+       
     }
-    
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-    
+      
 }
+
+
+
+
+
+
+
+

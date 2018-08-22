@@ -6,60 +6,73 @@
 package fr.lapepite.controller;
 
 import fr.lapepite.javabean.Utilisateur;
+import fr.lapepite.services.LignePanierServices;
 import fr.lapepite.services.UtilisateurServices;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
 public class UserServlet extends HttpServlet {
 
+	private final static String CHEMIN_JSP_USER = "/jsp/user.jsp";
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-       
-  
-        
-    }
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-       
-    }
+		redirectToView(request, response);
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		Enumeration<String> list = request.getParameterNames();
+
+		LignePanierServices lignePanierServices = new LignePanierServices();
+
+		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+		
+		int idProduit;
+
+		while (list.hasMoreElements()) {
+
+			final String parameterName = list.nextElement();
+
+			if ("addOne".equals(parameterName)) {
+				
+				idProduit = Integer.parseInt(request.getParameter("addOne"));
+
+				utilisateur = lignePanierServices.addOrDropOneToQuantity(utilisateur, true, idProduit);
+
+			} else if ("dropOne".equals(parameterName)) {
+				
+				idProduit = Integer.parseInt(request.getParameter("dropOne"));
+
+				utilisateur = lignePanierServices.addOrDropOneToQuantity(utilisateur, false, idProduit);
+
+			}
+		}
+		
+		HttpSession session = request.getSession();
+		
+		session.setAttribute("utilisateur", utilisateur);
+
+		doGet(request, response);
+
+	}
+	
+	public void redirectToView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		getServletContext().getRequestDispatcher(CHEMIN_JSP_USER).forward(request, response);
+		
+	}
 
 }

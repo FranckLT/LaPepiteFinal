@@ -24,14 +24,22 @@ public class LignePanier {
         this.bijoux = bijoux;
     }
 
-    public int getQuantite() {
+    public int getQuantite_lignepanier() {
         return quantite_lignepanier;
     }
 
-    public void setQuantite(int quantite) {
+    public void setQuantite_lignepanier(int quantite) {
         this.quantite_lignepanier = quantite;
     }
     
+    public void addOne() {
+		quantite_lignepanier += 1;
+	}
     
+    public void dropOne() {
+    	
+		quantite_lignepanier -= 1;
+		
+	}
 
 }

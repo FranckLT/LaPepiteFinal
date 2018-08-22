@@ -39,17 +39,18 @@
 
 						</c:when>
 						<c:when test="${not empty sessionScope.utilisateur}">
-							<c:if test="${utilisateur.admin == 'true'}">
-								<li class="col-md-2"><a href="/LaPepite/admin"><i
-										class="fa fa-users">${sessionScope.utilisateur.nom}</i></a></li>
-							</c:if>
-							<c:if test="${utilisateur.admin == 'false'}">
-								<li class="col-md-2"><a
-									href="/LaPepite/user?id_utilisateur=${sessionScope.utilisateur.id}"><i
-										class="fa fa-users"> ${sessionScope.utilisateur.nom}</i></a></li>
-							</c:if>
-
-
+							<c:choose>
+								<c:when test="${sessionScope.utilisateur.admin == true}">
+									<li class="col-md-2"><a href="/LaPepite/admin"><i
+										class="fa fa-users">${sessionScope.utilisateur.nom_utilisateur}</i></a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="col-md-2"><a href="/LaPepite/user"><i
+										class="fa fa-users"> ${sessionScope.utilisateur.nom_utilisateur}</i></a></li>
+								</c:otherwise>
+							
+							</c:choose>
+							
 						</c:when>
 
 					</c:choose>

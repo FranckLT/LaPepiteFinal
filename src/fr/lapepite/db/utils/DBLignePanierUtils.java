@@ -41,9 +41,9 @@ public class DBLignePanierUtils {
                         
 			stmtLignePanier = con.prepareStatement(QUERY_INSERT_LIGNE_PANIER);
 	
-                        stmtLignePanier.setInt(1, lignePanier.getBijoux().getId());
+                        stmtLignePanier.setInt(1, lignePanier.getBijoux().getId_bijoux());
                         stmtLignePanier.setInt(2, idPanier);
-                        stmtLignePanier.setInt(3, lignePanier.getQuantite());
+                        stmtLignePanier.setInt(3, lignePanier.getQuantite_lignepanier());
                         
                         stmtLignePanier.executeUpdate();
 			
@@ -104,7 +104,7 @@ public class DBLignePanierUtils {
          
          lignePanier.setBijoux(bijoux);
          
-         lignePanier.setQuantite(rset.getInt("quantite"));
+         lignePanier.setQuantite_lignepanier(rset.getInt("quantite"));
          
          return lignePanier;
          

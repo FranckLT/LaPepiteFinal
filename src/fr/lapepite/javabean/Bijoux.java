@@ -21,38 +21,38 @@ public class Bijoux {
     private Categorie categorie;
     
     
-    public int getId() {
+    public int getId_bijoux() {
         return id_bijoux;
     }
     
-    public Bijoux setId(int id) {
+    public Bijoux setId_bijoux(int id) {
         this.id_bijoux = id;
         return this;
     }
     
-    public String getNom() {
+    public String getNom_bijoux() {
         return nom_bijoux;
     }
     
-    public Bijoux setNom(String nom) {
+    public Bijoux setNom_bijoux(String nom) {
         this.nom_bijoux = nom;
         return this;
     }
     
-    public String getRef() {
+    public String getRef_bijoux() {
         return ref_bijoux;
     }
     
-    public Bijoux setRef(String ref) {
+    public Bijoux setRef_bijoux(String ref) {
         this.ref_bijoux = ref;
         return this;
     }
     
-    public int getPrix() {
+    public int getPrix_bijoux() {
         return prix_bijoux;
     }
     
-    public Bijoux setPrix(int prix) {
+    public Bijoux setPrix_bijoux(int prix) {
         this.prix_bijoux = prix;
         return this;
     }
@@ -75,34 +75,31 @@ public class Bijoux {
         return this;
     }
 
-    public String getImage() {
+    public String getImage_bijoux() {
         return image_bijoux;
     }
 
-    public Bijoux setImage(String image) {
+    public Bijoux setImage_bijoux(String image) {
         this.image_bijoux = image;
         return this;
     }
 
-    public String getDescription() {
+    public String getDescription_bijoux() {
         return description_bijoux;
     }
 
-    public Bijoux setDescription(String description) {
+    public Bijoux setDescription_bijoux(String description) {
         this.description_bijoux = description;
         return this;
     }
 
-	public int getStock() {
+	public int getStock_bijoux() {
 		return stock_bijoux;
 	}
 
-	public Bijoux setStock(int stock) {
+	public Bijoux setStock_bijoux(int stock) {
 		this.stock_bijoux = stock;
 		return this;
 	}
-    
-    
-    
     
 }

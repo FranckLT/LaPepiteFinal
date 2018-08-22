@@ -28,34 +28,37 @@ import org.omg.PortableServer.ServantActivator;
 public class DBBijouxUtils {
 
 
-	private final static String QUERY_FIND_BIJOUX = "SELECT * FROM bijoux INNER JOIN designer ON bijoux.id_designer = designer.id_designer INNER JOIN categorie on bijoux.id_categorie = categorie.id_categorie";
+	private final static String QUERY_FIND_BIJOUX = "SELECT * FROM Bijoux INNER JOIN Designer ON Bijoux.id_designer = Designer.id_designer INNER JOIN Categorie on Bijoux.id_categorie = Categorie.id_categorie";
 	private final static String QUERY_FIND_ONE_BIJOUX = "SELECT * FROM bijoux INNER JOIN designer ON bijoux.id_designer = designer.id_designer INNER JOIN categorie on bijoux.id_categorie = categorie.id_categorie WHERE id_bijoux=(?)";
 	private final static String QUERY_INSERT_BIJOUX = "INSERT INTO bijoux VALUES(null, ?,?,?,null,?,?,?,?)";
 	private final static String QUERY_DELETE_BIJOUX = "DELETE FROM bijoux WHERE id_bijoux=?";
 	private final static String QUERY_UPDATE_BIJOUX = "UPDATE bijoux SET nom_bijoux = ?, ref_bijoux=?, prix_bijoux = ?, id_designer=?, id_categorie=?, qteStock=?, description=?  WHERE id_bijoux = ?";
 
-	public static ArrayList<Bijoux> requestSelect() {
+	public static ArrayList<Bijoux> requestSelectAll() throws Exception {
 
-		ArrayList<Bijoux> listBijou=new ArrayList<>();
-
+		ArrayList<Bijoux> listBijoux=new ArrayList<>();
 		Connection con = null;
 		Statement stmt = null;
+		
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			con = DriverManager.getConnection(ConnexionJDBC.URL, ConnexionJDBC.LOGIN, ConnexionJDBC.PASSWORD); //La connexion
+			
+			con = ConnexionJDBC.getConnection();
+			
 			stmt = con.createStatement();
+			
 			ResultSet rset = stmt.executeQuery(QUERY_FIND_BIJOUX);
 
 			while (rset.next()) {
-				Bijoux bijou = rsetToBijou(rset);
-				listBijou.add(bijou);
+				Bijoux bijou = rsetToBijoux(rset);
+				listBijoux.add(bijou);
 			}
 
-			return listBijou;
+			return listBijoux;
 		}
 		catch (final SQLException e) {
-			e.printStackTrace();
-			return listBijou;
+			
+			throw new Exception("La requete de récupération des bijoux à échoué.");
+			
 		}
 		finally {
 
@@ -82,7 +85,7 @@ public class DBBijouxUtils {
 			ResultSet rset = stmt.executeQuery(QUERY_FIND_BIJOUX);
 
 			while (rset.next()) {
-				Bijoux bijou = rsetToBijou(rset);
+				Bijoux bijou = rsetToBijoux(rset);
 				listBijou.add(bijou);
 			}
 
@@ -117,7 +120,7 @@ public class DBBijouxUtils {
 			ResultSet rset = stmt.executeQuery(QUERY_FIND_BIJOUX);
 
 			while (rset.next()) {
-				Bijoux bijou = rsetToBijou(rset);
+				Bijoux bijou = rsetToBijoux(rset);
 				listBijou.add(bijou);
 			}
 
@@ -156,7 +159,7 @@ public class DBBijouxUtils {
 			stmt.setInt(1, id);
 			ResultSet rSet = stmt.executeQuery();
 			if (rSet.next()) {
-				bijoux = rsetToBijou(rSet);
+				bijoux = rsetToBijoux(rSet);
 				return bijoux;
 			} else {
 				throw new Exception("L'utilisateur : " + id + " n'existe pas");
@@ -178,26 +181,27 @@ public class DBBijouxUtils {
 		Connection con = null;
 		PreparedStatement stmtBijoux = null;
 
-
 		try {
 
 			con = ConnexionJDBC.getConnection();
 
 			stmtBijoux = con.prepareStatement(QUERY_INSERT_BIJOUX);
 
-			stmtBijoux.setString(1, bijoux.getNom());
-			stmtBijoux.setString(2, bijoux.getRef());
-			stmtBijoux.setInt(3, bijoux.getPrix());
-			stmtBijoux.setInt(4, bijoux.getDesigner().getId());
-			stmtBijoux.setInt(5, bijoux.getCategorie().getId_categorie());
-			stmtBijoux.setInt(6, bijoux.getStock());
-			stmtBijoux.setString(7, bijoux.getDescription());
-			stmtBijoux.setString(7, bijoux.getDescription());
+			stmtBijoux.setString(1, bijoux.getNom_bijoux());
+			stmtBijoux.setString(2, bijoux.getRef_bijoux());
+			stmtBijoux.setInt(3, bijoux.getPrix_bijoux());
+			stmtBijoux.setInt(4, bijoux.getStock_bijoux());
+			stmtBijoux.setString(5, bijoux.getDescription_bijoux());
+			stmtBijoux.setInt(6, bijoux.getCategorie().getId_categorie());
+			stmtBijoux.setInt(7, bijoux.getDesigner().getId_designer());
 
+			
 			stmtBijoux.executeUpdate();
+			
+			
 
 		} catch(Exception e){
-
+			e.printStackTrace();
 
 		}finally {
 			// Close the connection
@@ -209,7 +213,6 @@ public class DBBijouxUtils {
 				}
 			}
 		}
-
 
 	}
 	
@@ -225,14 +228,14 @@ public class DBBijouxUtils {
 
 			stmtBijoux = con.prepareStatement(QUERY_UPDATE_BIJOUX);
 
-			stmtBijoux.setString(1, bijoux.getNom());
-			stmtBijoux.setString(2, bijoux.getRef());
-			stmtBijoux.setInt(3, bijoux.getPrix());
-			stmtBijoux.setInt(4, bijoux.getDesigner().getId());
+			stmtBijoux.setString(1, bijoux.getNom_bijoux());
+			stmtBijoux.setString(2, bijoux.getRef_bijoux());
+			stmtBijoux.setInt(3, bijoux.getPrix_bijoux());
+			stmtBijoux.setInt(4, bijoux.getDesigner().getId_designer());
 			stmtBijoux.setInt(5, bijoux.getCategorie().getId_categorie());
-			stmtBijoux.setInt(6, bijoux.getStock());
-			stmtBijoux.setString(7, bijoux.getDescription());
-			stmtBijoux.setInt(8, bijoux.getId());
+			stmtBijoux.setInt(6, bijoux.getStock_bijoux());
+			stmtBijoux.setString(7, bijoux.getDescription_bijoux());
+			stmtBijoux.setInt(8, bijoux.getId_bijoux());
 
 			stmtBijoux.executeUpdate();
 
@@ -265,7 +268,7 @@ public class DBBijouxUtils {
 
 			stmtBijoux = con.prepareStatement(QUERY_DELETE_BIJOUX);
 
-			stmtBijoux.setInt(1, bijoux.getId());
+			stmtBijoux.setInt(1, bijoux.getId_bijoux());
 
 			stmtBijoux.executeUpdate();
 
@@ -291,27 +294,27 @@ public class DBBijouxUtils {
 
 
 
-	private static Bijoux rsetToBijou(final ResultSet rset) throws SQLException
-	{
-		Designer designer = rsetToDesigner(rset);
+	private static Bijoux rsetToBijoux(final ResultSet rset) throws SQLException {
+		
+		Designer designer = DBDesignerUtils.rsetToDesigner(rset);
 
-		Categorie categorie = rsetToCategorie(rset);
+		Categorie categorie = DBCategorieUtils.rsetToCategorie(rset);
 
 		Bijoux bijou = new Bijoux();
 
-		bijou.setId(rset.getInt("id_bijoux"));
+		bijou.setId_bijoux(rset.getInt("id_bijoux"));
 
-		bijou.setRef(rset.getString("ref_bijoux"));
+		bijou.setRef_bijoux(rset.getString("ref_bijoux"));
 
-		bijou.setNom(rset.getString("nom_bijoux"));
+		bijou.setNom_bijoux(rset.getString("nom_bijoux"));
 
-		bijou.setPrix(rset.getInt("prix_bijoux"));
+		bijou.setPrix_bijoux(rset.getInt("prix_bijoux"));
 		
-		bijou.setStock(rset.getInt("qteStock"));
+		bijou.setStock_bijoux(rset.getInt("stock_bijoux"));
 
-		bijou.setImage(rset.getString("image"));
+		bijou.setImage_bijoux(rset.getString("image_bijoux"));
 
-		bijou.setDescription(rset.getString("description"));
+		bijou.setDescription_bijoux(rset.getString("description_bijoux"));
 
 		bijou.setDesigner(designer);
 
@@ -319,33 +322,6 @@ public class DBBijouxUtils {
 
 		return bijou;
 	}
-
-
-
-	private static Designer rsetToDesigner(final ResultSet rSet) throws SQLException{
-
-		final Designer designer = new Designer();
-
-		designer.setId(rSet.getInt("id_designer"));
-		designer.setNom(rSet.getString("nom_designer"));
-
-		return designer;
-	}
-
-	private static Categorie rsetToCategorie(final ResultSet rSet) throws SQLException{
-
-		final Categorie categorie = new Categorie();
-
-		categorie.setId_categorie(rSet.getInt("id_categorie"));
-		categorie.setNom_categorie(rSet.getString("nom_categorie"));
-
-		return categorie;
-	}
-
-
-
-
-
 
 
 }

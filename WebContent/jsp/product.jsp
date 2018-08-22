@@ -1,8 +1,3 @@
-<%-- 
-    Document   : product
-    Created on : 3 août 2018, 09:24:05
-    Author     : Sammy Guergachi <sguergachi at gmail.com>
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,7 +9,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="/LaPepite/css/lapepite.css" rel="stylesheet">
         <link href="/LaPepite/css/topMenu.css" rel="stylesheet">
-        <title>${bijoux.nom}</title>
+        <title>${bijoux.nom_bijoux}</title>
     </head>
     <body>
         
@@ -35,13 +30,13 @@
             <div class="col-lg-9">
 
                 <div class="card mt-4">
-                    <img class="card-img-top img-fluid" src="${bijoux.image}" alt="">
+                    <img class="card-img-top img-fluid" src="/LaPepite/image/bijoux/${bijoux.image_bijoux}" alt="image de bijoux">
                     <div class="card-body">
-                        <h3 class="card-title">${bijoux.nom}</h3>
-                        <h4>${bijoux.prix} €</h4>
-                        <p class="card-text">${bijoux.description}</p>
+                        <h3 class="card-title">${bijoux.nom_bijoux}</h3>
+                        <h4>${bijoux.prix_bijoux} €</h4>
+                        <p class="card-text">${bijoux.description_bijoux}</p>
                         <div class="row justify-content-between">
-                            <form id="product-form" action="/LaPepite/shop/product?id=${bijoux.id}" method="post" role="form" style="display: block;" class="mr-5">
+                            <form id="product-form" action="/LaPepite/shop/product?id=${bijoux.id_bijoux}" method="post" role="form" style="display: block;" class="mr-5">
                                 <select name="numberOfProduct" size="1" class="mx-3">
                                     <option selected="true">1</option>
                                     <option>2</option>

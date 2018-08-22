@@ -30,25 +30,45 @@
                 
                 <br>
         
+        
         <div class="container">
+        
             <div class="row jewel">
+            
                 <c:forEach items="${ listBijoux }" var ="bijoux" >
                     
                     <div class="card h-10 col-xl-3 col-md-12 m-5 jewelDiv ">
-                        <a href="/LaPepite/shop/product?id=${bijoux.id}"><img class="card-img-top" src="${bijoux.image}" alt=""></a>
+                    
+                        <a href="shop/product?id=${bijoux.id_bijoux}"><img class="card-img-top" src="./image/bijoux/${bijoux.image_bijoux}" alt="photo d'un bijou"></a>
+                        
                         <div class="card-body">
+                        
                             <h4 class="card-title">
-                                <a href="/LaPepite/shop/product?id=${bijoux.id}">${bijoux.nom}</a>
+                            
+                                <a href="shop/product?id=${bijoux.id_bijoux}">${bijoux.nom_bijoux}</a>
+                                
                             </h4>
-                            <h5>${ bijoux.prix } €</h5>
-                            <p class="card-text">${ bijoux.designer.nom }</p>
+                            
+                            <h5>${ bijoux.prix_bijoux } €</h5>
+                            
+                            <p class="card-text">${ bijoux.designer.nom_designer }</p>
+                            
                         </div>
+                        
                         <div class="card-footer">
+                        
                             <small class="text-muted">${ bijoux.categorie.nom_categorie }</small>
+                            
                         </div>
+                        
                     </div>
+                    
                 </c:forEach>
+                
             </div>
+            
         </div>
+        
+        
     </body>
 </html>

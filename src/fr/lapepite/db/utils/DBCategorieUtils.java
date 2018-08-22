@@ -58,7 +58,7 @@ public class DBCategorieUtils {
 		}
 	}
     
-    private static Categorie rsetToCategorie(final ResultSet rSet) throws SQLException{
+    public static Categorie rsetToCategorie(final ResultSet rSet) throws SQLException{
 		
 		final Categorie categorie = new Categorie();
                 

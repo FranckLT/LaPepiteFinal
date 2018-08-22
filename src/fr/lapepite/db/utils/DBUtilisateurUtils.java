@@ -19,31 +19,33 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
-public class DBUtilisateurUtils {
-    
-    private final static String QUERY_FIND_ID_WITH_USER_NAME = "SELECT * FROM utilisateur INNER JOIN panier on panier.id_utilisateur = utilisateur.id_utilisateur WHERE nom = (?)";
-    private final static String QUERY_FIND_UTILISATEUR_BY_EMAIL = "SELECT * FROM utilisateur LEFT JOIN panier on panier.id_utilisateur = utilisateur.id_utilisateur WHERE mail_user = (?)";
-    private final static String QUERY_INSERT_UTILISATEUR = "INSERT INTO utilisateur VALUES(null, (?),(?),(?),(?),(?),(?))";
-    private final static String QUERY_FIND_ALL_EMAIL_UTILISATEUR = "SELECT mail_user FROM utilisateur";
 
-    
-    public static int selectIdFromUser(String nom) throws Exception, SQLException {
+public class DBUtilisateurUtils {
+
+	private final static String QUERY_FIND_ID_WITH_USER_NAME = "SELECT * FROM Utilisateur INNER JOIN panier on panier.id_utilisateur = utilisateur.id_utilisateur WHERE nom_utilisateur = (?)";
+	
+	private final static String QUERY_FIND_UTILISATEUR_BY_EMAIL = "SELECT * FROM Utilisateur WHERE mail_utilisateur = (?)";
+	
+	private final static String QUERY_INSERT_UTILISATEUR = "INSERT INTO Utilisateur VALUES (null, ?,?,?,?,?,?, null)";
+	
+	private final static String QUERY_FIND_ALL_EMAIL_UTILISATEUR = "SELECT mail_utilisateur FROM utilisateur";
+
+
+	public static int selectIdFromUser(String nom) throws Exception, SQLException {
+
 		Connection con = null;
 		PreparedStatement stmt = null;
 
 		try {
-	
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			con = DriverManager.getConnection(ConnexionJDBC.URL, ConnexionJDBC.LOGIN, ConnexionJDBC.PASSWORD);
 
-			// takes the name and returns an id
+			con = ConnexionJDBC.getConnection();
+
 			stmt = con.prepareStatement(QUERY_FIND_ID_WITH_USER_NAME);
+
 			stmt.setString(1, nom);
+
 			ResultSet rSet = stmt.executeQuery();
+
 			if (rSet.next()) {
 				int id = rSet.getInt("id");
 				return id;
@@ -61,29 +63,27 @@ public class DBUtilisateurUtils {
 			}
 		}
 	}
-    
-     public static Utilisateur selectUtilisateurByEmail(Utilisateur utilisateur) throws Exception, SQLException {
-         
+
+	public static Utilisateur selectUtilisateurByEmail(Utilisateur utilisateur) throws Exception, SQLException {
+
 		Connection con = null;
 		PreparedStatement stmt = null;
 
-                List<Utilisateur> listUtilisateur = new ArrayList<Utilisateur>();
-                
-		try {
-	
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			con = DriverManager.getConnection(ConnexionJDBC.URL, ConnexionJDBC.LOGIN, ConnexionJDBC.PASSWORD);
+		List<Utilisateur> listUtilisateur = new ArrayList<Utilisateur>();
 
-			// takes the name and returns an id
+		try {
+
+			con = ConnexionJDBC.getConnection();
+
 			stmt = con.prepareStatement(QUERY_FIND_UTILISATEUR_BY_EMAIL);
-			stmt.setString(1, utilisateur.getEmail());
+			stmt.setString(1, utilisateur.getMail_utilisateur());
 			ResultSet rSet = stmt.executeQuery();
 			if (rSet.next()) {
-                            listUtilisateur.add(rsetToUserAndPanier(rSet));
+				listUtilisateur.add(rsetToUser(rSet));
 			} else {
-				throw new Exception("L'email : " + utilisateur.getEmail() + " n'existe pas");
+				throw new Exception("L'email : " + utilisateur.getMail_utilisateur() + " n'existe pas");
 			}
-                        return listUtilisateur.get(0);
+			return listUtilisateur.get(0);
 		} finally {
 			// Close the connection
 			if (con != null) {
@@ -95,36 +95,35 @@ public class DBUtilisateurUtils {
 			}
 		}
 	}
-    
-    public static void insertUtilisateur( Utilisateur utilisateur ) throws Exception, SQLException {
+
+	public static void insertUtilisateur( Utilisateur utilisateur ) throws Exception, SQLException {
 
 		Connection con = null;
 		PreparedStatement stmtUtilisateur = null;
-               // Reporter reporter = fr.france_presse.db.method.Method.isReporterExists(dispatch.getReporterName()).get(0);
-	
+
 		try {
-                    
-			// Relative instruction to work with Tomcat and Mysql
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			con = DriverManager.getConnection(ConnexionJDBC.URL, ConnexionJDBC.LOGIN, ConnexionJDBC.PASSWORD);
-                        
+
+			con = ConnexionJDBC.getConnection();
+
 			stmtUtilisateur = con.prepareStatement(QUERY_INSERT_UTILISATEUR);
-	
-                        stmtUtilisateur.setString(1, utilisateur.getNom());
-                        stmtUtilisateur.setString(2, utilisateur.getPrenom());
-                        stmtUtilisateur.setString(3, utilisateur.getAdresse());
-                        stmtUtilisateur.setString(4, utilisateur.getEmail());
-                        stmtUtilisateur.setBoolean(5, false);
-                        stmtUtilisateur.setString(6, utilisateur.getPassword());
-                        
-                   
-                        stmtUtilisateur.executeUpdate();
+
+			stmtUtilisateur.setString(1, utilisateur.getNom_utilisateur());
+			stmtUtilisateur.setString(2, utilisateur.getPrenom_utilisateur());
 			
+			stmtUtilisateur.setString(3, utilisateur.getAdresse_utilisateur());
+			
+			stmtUtilisateur.setString(4, utilisateur.getMail_utilisateur());
+			
+			stmtUtilisateur.setBoolean(5, utilisateur.isAdmin());
+			stmtUtilisateur.setString(6, utilisateur.getPassword_utilisateur());
+
+			stmtUtilisateur.executeUpdate();
+
 		} catch(Exception e){
-                    
-                    
-                }finally {
-			// Close the connection
+			
+			throw new Exception("L'utilisateur n'a pu être enregistré.");
+
+		}finally {
 			if (con != null) {
 				try {
 					con.close();
@@ -134,24 +133,26 @@ public class DBUtilisateurUtils {
 			}
 		}
 	}
-    
-    public static List<String> requestSelectAllEmailUtilisateur() {
-		
+
+	public static List<String> requestSelectAllEmailUtilisateur() {
+
 		List<String> listEmailUtilisateurs=new ArrayList<>();
-		
+
 		Connection con = null;
 		Statement stmt = null;
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			con = DriverManager.getConnection(ConnexionJDBC.URL, ConnexionJDBC.LOGIN, ConnexionJDBC.PASSWORD); //La connexion
+
+			con = ConnexionJDBC.getConnection();
+
 			stmt = con.createStatement();
+
 			ResultSet rset = stmt.executeQuery(QUERY_FIND_ALL_EMAIL_UTILISATEUR);
-			
+
 			while (rset.next()) {
-				String email = rset.getString("mail_user");
+				String email = rset.getString("mail_utilisateur");
 				listEmailUtilisateurs.add(email);
 			}
-			
+
 			return listEmailUtilisateurs;
 		}
 		catch (final SQLException e) {
@@ -159,7 +160,7 @@ public class DBUtilisateurUtils {
 			return listEmailUtilisateurs;
 		}
 		finally {
-			
+
 			if (con != null) {
 				try {
 					con.close();
@@ -169,45 +170,46 @@ public class DBUtilisateurUtils {
 			}
 		}
 	}
-	
-	
-    private static Utilisateur rsetToUserAndPanier(final ResultSet rSet) throws SQLException{
-		
-                Utilisateur user = new Utilisateur();
-		
-                user.setId(rSet.getInt("id_utilisateur"));
-                user.setNom(rSet.getString("nom_user"));
-                user.setPrenom(rSet.getString("prenom_user"));
-                user.setAdresse(rSet.getString("adresse_user"));
-                user.setEmail(rSet.getString("mail_user"));
-                user.setAdmin(rSet.getBoolean("admin"));
-                user.setPassword(rSet.getString("password"));
-                
-                user.setPanier(rsetToPanier(rSet));
-                
+
+
+	private static Utilisateur rsetToUserAndPanier(final ResultSet rSet) throws SQLException{
+
+		Utilisateur user = new Utilisateur();
+
+		user.setId_utilisateur(rSet.getInt("id_utilisateur"));
+		user.setNom_utilisateur(rSet.getString("nom_user"));
+		user.setPrenom_utilisateur(rSet.getString("prenom_user"));
+		user.setAdresse_utilisateur(rSet.getString("adresse_user"));
+		user.setMail_utilisateur(rSet.getString("mail_user"));
+		user.setAdmin(rSet.getBoolean("admin"));
+		user.setPassword_utilisateur(rSet.getString("password"));
+
+		user.setPanier(rsetToPanier(rSet));
+
 		return user;
 	}
-    
-    private static Utilisateur rsetToUser( ResultSet rSet) throws SQLException{
-		
-                Utilisateur user = new Utilisateur();
-		
-                user.setId(rSet.getInt("id_utilisateur"));
-                user.setNom(rSet.getString("nom_user"));
-                user.setPrenom(rSet.getString("prenom_user"));
-                user.setAdresse(rSet.getString("adresse_user"));
-                user.setEmail(rSet.getString("mail_user"));
-                user.setAdmin(rSet.getBoolean("admin"));
-                user.setPassword(rSet.getString("password"));
-                
+
+	private static Utilisateur rsetToUser( ResultSet rSet) throws SQLException{
+
+		Utilisateur user = new Utilisateur();
+
+		user.setId_utilisateur(rSet.getInt("id_utilisateur"));
+		user.setNom_utilisateur(rSet.getString("nom_utilisateur"));
+		user.setPrenom_utilisateur(rSet.getString("prenom_utilisateur"));
+		user.setAdresse_utilisateur(rSet.getString("adresse_utilisateur"));
+		user.setMail_utilisateur(rSet.getString("mail_utilisateur"));
+		user.setAdmin(rSet.getBoolean("admin"));
+		user.setPassword_utilisateur(rSet.getString("password_utilisateur"));
+
 		return user;
+
 	}
-   
-   
-    public static Panier rsetToPanier(ResultSet rset) throws SQLException{
-        Panier panier = new Panier();
-        panier.setId_panier(rset.getInt("id_panier"));
-        return panier;
-    }
+
+
+	public static Panier rsetToPanier(ResultSet rset) throws SQLException{
+		Panier panier = new Panier();
+		panier.setId_panier(rset.getInt("id_panier"));
+		return panier;
+	}
 
 }

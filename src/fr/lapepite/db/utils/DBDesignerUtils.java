@@ -57,12 +57,13 @@ public class DBDesignerUtils {
 		}
 	}
     
-    private static Designer rsetToDesigner(final ResultSet rSet) throws SQLException{
+    public static Designer rsetToDesigner(final ResultSet rSet) throws SQLException{
 		
 		final Designer designer = new Designer();
                 
-                designer.setId(rSet.getInt("id_designer"));
-                designer.setNom(rSet.getString("nom_designer"));
+                designer.setId_designer(rSet.getInt("id_designer"));
+                designer.setNom_designer(rSet.getString("nom_designer"));
+                designer.setDescription_designer(rSet.getString("description_designer"));
 		
 		return designer;
 	}

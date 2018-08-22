@@ -9,6 +9,7 @@ package fr.lapepite.services;
 import fr.lapepite.controller.RegisteringServlet;
 import fr.lapepite.db.utils.DBPanierUtils;
 import fr.lapepite.db.utils.DBUtilisateurUtils;
+import fr.lapepite.javabean.LignePanier;
 import fr.lapepite.javabean.Panier;
 import fr.lapepite.javabean.Utilisateur;
 import java.io.IOException;
@@ -23,17 +24,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 
-/**
- *
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
+import com.sun.xml.internal.ws.api.pipe.NextAction;
+
+
 public class UtilisateurServices {
     
     public static void addUtilisateur(Utilisateur utilisateur) throws Exception{
+    	
         DBUtilisateurUtils.insertUtilisateur(utilisateur);
+        
     }
     
-    public static void logUtilisateur(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception{
+    public void logUtilisateur(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception{
         try {
             
             if (verifLoginForm(request)) {
@@ -43,6 +45,14 @@ public class UtilisateurServices {
                 String passwordFromForm = request.getParameter("password");
                 
                 if (testIfPasswordMatch(passwordFromForm, utilisateur)) {
+                	
+                	Panier panier = new Panier();
+                	
+                	ArrayList<LignePanier> list = new ArrayList<>();
+                	
+                	panier.setListProduit(list);
+                	
+                	utilisateur.setPanier(panier);
                     
                     setSessionUtilisateur(request, utilisateur);
                     
@@ -66,16 +76,13 @@ public class UtilisateurServices {
     }
     
     
-    public static void registerUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    public boolean registerUser(HttpServletRequest request) throws ServletException, IOException{
         
         try {
             
             if (verifRegisterForm(request)) {
-   
-                
+             
                 if (!verifIfEmailAlreadyUsed(request)) {
-                	
-                	
 
                 //Recup des infos
                 String email = request.getParameter("email");
@@ -92,11 +99,12 @@ public class UtilisateurServices {
                 
                 //set de l'utilisateur
                 utilisateur
-                        .setNom(nom)
-                        .setPrenom(prenom)
-                        .setEmail(email)
-                        .setAdresse(adresse)
-                        .setPassword(password);
+                        .setNom_utilisateur(nom)
+                        .setPrenom_utilisateur(prenom)
+                        .setMail_utilisateur(email)
+                        .setAdresse_utilisateur(adresse)
+                        .setAdmin(false)
+                        .setPassword_utilisateur(password);
                 
                 
                 //enregistrement en base
@@ -105,40 +113,51 @@ public class UtilisateurServices {
                 //récupération utilisateur en BDD
                 utilisateur = DBUtilisateurUtils.selectUtilisateurByEmail(utilisateur);
                 
-                //création du panier
-                DBPanierUtils.insertPanier(utilisateur);
+                //Après récupértion de l'id de l'utilisateur on enregistre son panier
+                PanierServices panierServices = new PanierServices();
                 
+                Panier panier = new Panier();
+                
+                panier.setId_panier(utilisateur.getId_utilisateur());
+                
+                panierServices.insertPanier(panier);
+                
+                utilisateur.setPanier(panier);
+               
                 //enregistrement uilisateur en session
                 setSessionUtilisateur(request, utilisateur);
                 
-                response.sendRedirect("/LaPepite/home");
-                
+                return true;
+   
                  } else {
-                    
-                    response.sendRedirect("/LaPepite/register");
-                    
-                    throw new Exception("Email deja utilisé.");
-                    
+  
+                	return false;
+                	 
                 }
                 
+            } else {
+            	
+            	return false;
+            	
             }
             
             
         } catch (Exception ex) {
             Logger.getLogger(RegisteringServlet.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
         
     }
     
     
-    public static Utilisateur getUtilisateur(HttpServletRequest request) throws ServletException, IOException{
+    public Utilisateur getUtilisateur(HttpServletRequest request) throws ServletException, IOException{
         try {
             
             String emailFromForm = request.getParameter("email");
             
             Utilisateur utilisateurFromForm = new Utilisateur();
             
-            utilisateurFromForm.setEmail(emailFromForm);
+            utilisateurFromForm.setMail_utilisateur(emailFromForm);
             
             Utilisateur utilisateurFromDB = DBUtilisateurUtils.selectUtilisateurByEmail(utilisateurFromForm);
             
@@ -152,17 +171,18 @@ public class UtilisateurServices {
     }
     
     
-    public static void setSessionUtilisateur(HttpServletRequest request, Utilisateur utilisateur){
+    public void setSessionUtilisateur(HttpServletRequest request, Utilisateur utilisateur){
         
         HttpSession session = request.getSession();
+        
         session.setAttribute("utilisateur", utilisateur);
         
     }
     
     
-    public static boolean testIfPasswordMatch(String password, Utilisateur utilisateur){
+    public boolean testIfPasswordMatch(String password, Utilisateur utilisateur){
         
-        boolean testIfPasswordMatch = BCrypt.checkpw(password, utilisateur.getPassword());
+        boolean testIfPasswordMatch = BCrypt.checkpw(password, utilisateur.getPassword_utilisateur());
         
         if (testIfPasswordMatch) {
             return true;
@@ -172,7 +192,7 @@ public class UtilisateurServices {
     }
     
     
-    public static boolean testIfUtilisateurIsConnected(HttpServletRequest request){
+    public boolean testIfUtilisateurIsConnected(HttpServletRequest request){
         
         Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
         
@@ -184,7 +204,7 @@ public class UtilisateurServices {
     }
     
     
-    public static void setSession(HttpServletRequest request, Utilisateur utilisateur){
+    public void setSession(HttpServletRequest request, Utilisateur utilisateur){
         
         HttpSession session = request.getSession();
         
@@ -192,7 +212,7 @@ public class UtilisateurServices {
         
     }
     
-    public static boolean verifLoginForm(HttpServletRequest request) throws Exception{
+    public boolean verifLoginForm(HttpServletRequest request) throws Exception{
         
         String email = request.getParameter("email");
         
@@ -210,7 +230,7 @@ public class UtilisateurServices {
         
     }
     
-    public static boolean verifRegisterForm(HttpServletRequest request) throws Exception{
+    public boolean verifRegisterForm(HttpServletRequest request) throws Exception{
         
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -242,7 +262,7 @@ public class UtilisateurServices {
         
     }
     
-    public static boolean verifIfEmailAlreadyUsed(HttpServletRequest request){
+    public boolean verifIfEmailAlreadyUsed(HttpServletRequest request){
         
         //recup email
         String emailForm = request.getParameter("email");
@@ -251,10 +271,14 @@ public class UtilisateurServices {
         
         listEmail.addAll(DBUtilisateurUtils.requestSelectAllEmailUtilisateur());
         
+        //on boucle sur la liste de tout les emails de la base ppur voir si 
+        // il existe deja 
         for (String email : listEmail) {
+        	
             if (email.equals(emailForm)) {
-                System.out.println("DEBUG"+email + " "+ emailForm);
+            	
                 return true;
+                
             }
         }
         

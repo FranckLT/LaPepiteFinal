@@ -7,10 +7,7 @@
 package fr.lapepite.javabean;
 
 
-/**
- * 
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
+
 public class Utilisateur {
     
     private int id_utilisateur;
@@ -29,47 +26,47 @@ public class Utilisateur {
     
     private Panier panier;
 
-    public int getId() {
+    public int getId_utilisateur() {
         return id_utilisateur;
     }
 
-    public Utilisateur setId(int id) {
+    public Utilisateur setId_utilisateur(int id) {
         this.id_utilisateur = id;
         return this;
     }
 
-    public String getNom() {
+    public String getNom_utilisateur() {
         return nom_utilisateur;
     }
 
-    public Utilisateur setNom(String nom) {
+    public Utilisateur setNom_utilisateur(String nom) {
         this.nom_utilisateur = nom;
         return this;
     }
 
-    public String getPrenom() {
+    public String getPrenom_utilisateur() {
         return prenom_utilisateur;
     }
 
-    public Utilisateur setPrenom(String prenom) {
+    public Utilisateur setPrenom_utilisateur(String prenom) {
         this.prenom_utilisateur = prenom;
         return this;
     }
 
-    public String getAdresse() {
+    public String getAdresse_utilisateur() {
         return adresse_utilisateur;
     }
 
-    public Utilisateur setAdresse(String adresse) {
+    public Utilisateur setAdresse_utilisateur(String adresse) {
         this.adresse_utilisateur = adresse;
         return this;
     }
 
-    public String getEmail() {
+    public String getMail_utilisateur() {
         return mail_utilisateur;
     }
 
-    public Utilisateur setEmail(String email) {
+    public Utilisateur setMail_utilisateur(String email) {
         this.mail_utilisateur = email;
         return this;
     }
@@ -83,11 +80,11 @@ public class Utilisateur {
         return this;
     }
 
-    public String getPassword() {
+    public String getPassword_utilisateur() {
         return password_utilisateur;
     }
 
-    public Utilisateur setPassword(String password) {
+    public Utilisateur setPassword_utilisateur(String password) {
         this.password_utilisateur = password;
         return this;
     }

@@ -20,16 +20,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class LoginServlet extends HttpServlet {
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+	private UtilisateurServices utilisateurServices;
+	
+	
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,21 +31,16 @@ public class LoginServlet extends HttpServlet {
        
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException { 
         
         try {
-            
-            UtilisateurServices.logUtilisateur(request, response);
+        	
+            utilisateurServices = new UtilisateurServices();
+        	
+            utilisateurServices.logUtilisateur(request, response);
             
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -6,6 +6,7 @@
 
 package fr.lapepite.javabean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**

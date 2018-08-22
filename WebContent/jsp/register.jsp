@@ -56,7 +56,9 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form id="regster-form" action="/LaPepite/register" method="post" role="form" style="display: block;">
+                                
+                                    <form id="register-form" action="/LaPepite/register" method="post" role="form" style="display: block;">
+                                    
                                         <div class="form-group">
                                             <input type="text" name="nom" id="username" tabindex="1" class="form-control" placeholder="Nom" value="">
                                         </div>

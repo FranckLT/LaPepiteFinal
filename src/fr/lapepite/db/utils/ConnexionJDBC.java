@@ -10,14 +10,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * 
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
+
 public class ConnexionJDBC {
     
     
-	public static final String URL = "jdbc:mysql://localhost:8889/lapepiteDB";
+	public static final String URL = "jdbc:mysql://localhost:8889/LaPepiteDatabase";
 	public static final String LOGIN = "root";
 	public static final String PASSWORD = "root";
         

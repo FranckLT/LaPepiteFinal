@@ -15,7 +15,9 @@ import fr.lapepite.javabean.Designer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -24,21 +26,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.omg.PortableServer.ServantActivator;
 
-/**
- * 
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
+
 public class BijouxServices{
 
 
-	public List<Bijoux> getAll() {
+	public List<Bijoux> getAll() throws Exception {
 
 
 		List<Bijoux> listBijoux = new ArrayList<>();
-
-		listBijoux = DBBijouxUtils.requestSelect();
+		
+		//requête en base 
+		listBijoux = DBBijouxUtils.requestSelectAll();
 
 		return listBijoux;
+		
 	}
 
 	public static Bijoux getOneBijoux(HttpServletRequest request) throws ServletException, IOException {
@@ -62,20 +63,21 @@ public class BijouxServices{
 	}
 
 
-	public static void addOne(HttpServletRequest request) throws NumberFormatException, Exception {
+	
+public void addOne(HashMap<String, String> parametersList) throws NumberFormatException, Exception {
 		
-		if (verifForm(request)) {
-
-			if (verifIfNomAndRefBijouxAlreadyUsed(request)) {
+		if (verifForm(parametersList)) {
+			
+			if (!verifIfNomAndRefBijouxAlreadyUsed(parametersList)) {
 
 				//récup de tout les parametre 
-				String nomBijoux = request.getParameter("nomBijoux");
-				String refBijoux = request.getParameter("refBijoux");
-				int prixBijoux = Integer.parseInt(request.getParameter("prixBijoux"));
-				int stockBijoux = Integer.parseInt(request.getParameter("stockBijoux"));
-				String description = request.getParameter("descriptionBijoux");
-				int idDesignerBijoux = Integer.parseInt(request.getParameter("designerBijoux"));
-				int idCategorieBijoux = Integer.parseInt(request.getParameter("categorieBijoux"));
+				String nomBijoux = parametersList.get("nomBijoux");
+				String refBijoux = parametersList.get("refBijoux");
+				int prixBijoux = Integer.parseInt(parametersList.get("prixBijoux"));
+				int stockBijoux = Integer.parseInt(parametersList.get("stockBijoux"));
+				String description = parametersList.get("descriptionBijoux");
+				int idDesignerBijoux = Integer.parseInt(parametersList.get("designerBijoux"));
+				int idCategorieBijoux = Integer.parseInt(parametersList.get("categorieBijoux"));
 
 				//initialisation objets
 				Bijoux bijoux = new Bijoux();
@@ -83,15 +85,15 @@ public class BijouxServices{
 				Categorie categorie = new Categorie();
 
 				//set des objets
-				designer.setId(idDesignerBijoux);
+				designer.setId_designer(idDesignerBijoux);
 				categorie.setId_categorie(idCategorieBijoux);
 
 				bijoux
-				.setNom(nomBijoux)
-				.setRef(refBijoux)
-				.setPrix(prixBijoux)
-				.setStock(stockBijoux)
-				.setDescription(description)
+				.setNom_bijoux(nomBijoux)
+				.setRef_bijoux(refBijoux)
+				.setPrix_bijoux(prixBijoux)
+				.setStock_bijoux(stockBijoux)
+				.setDescription_bijoux(description)
 				.setDesigner(designer)
 				.setCategorie(categorie);
 
@@ -110,7 +112,7 @@ public class BijouxServices{
 
 		Bijoux bijoux = new Bijoux();
 
-		bijoux.setId(idBijoux);
+		bijoux.setId_bijoux(idBijoux);
 
 		DBBijouxUtils.deleteBijoux(bijoux);
 
@@ -159,21 +161,23 @@ public class BijouxServices{
 	}
 
 
-	public static boolean verifIfNomAndRefBijouxAlreadyUsed(HttpServletRequest request){
+	public static boolean verifIfNomAndRefBijouxAlreadyUsed(HashMap<String, String> parametersList) throws Exception{
 
-		String nom = request.getParameter("nomBijoux");
-
-		String ref = request.getParameter("refBijoux");
+		String nomBijoux = parametersList.get("nomBijoux");
+		
+		String refBijoux = parametersList.get("refBijoux");
 
 		List<Bijoux> listNomBijoux = new ArrayList<>();
 
-		listNomBijoux.addAll(DBBijouxUtils.requestSelect());
+		listNomBijoux.addAll(DBBijouxUtils.requestSelectAll());
 
 		for (Bijoux bijoux : listNomBijoux) {
-			if (bijoux.getNom().equals(nom)) {
+			if (bijoux.getNom_bijoux().equals(nomBijoux)) {
+				System.out.println("Nom deja utilisé");
 				return true;
 			}
-			if (bijoux.getRef().equals(ref)) {
+			if (bijoux.getRef_bijoux().equals(refBijoux)) {
+				System.out.println("Ref deja utilisé");
 				return true;
 			}
 		}
@@ -182,27 +186,16 @@ public class BijouxServices{
 
 	}
 
-	public static boolean verifForm(HttpServletRequest request) throws Exception {
+	public static boolean verifForm(HashMap<String, String> parametersList) throws Exception {
 
-		String nomBijoux = request.getParameter("nomBijoux");
-		String refBijoux = request.getParameter("refBijoux");
-		int prixBijoux = Integer.parseInt(request.getParameter("prixBijoux"));
-		String description = request.getParameter("descriptionBijoux");
-
-		if (nomBijoux.isEmpty()) {
-			throw new Exception("Le nom du bijoux est vide.");
-		}
-
-		if (refBijoux.isEmpty()) {
-			throw new Exception("La reférence du bijoux est vide.");
-		}
-
-		if (prixBijoux==0) {
-			throw new Exception("Le prix du bijoux est vide.");
-		}
-
-		if (description.isEmpty()) {
-			throw new Exception("La description du bijoux est vide.");
+		Set<String> keysList = parametersList.keySet();
+		
+		for (String parameterName : keysList) {
+			
+			if (parametersList.get(parameterName).equals("")) {
+				throw new Exception("Le champ " +parameterName+" ne peut pas être nul.");
+			}
+			
 		}
 
 		return true;

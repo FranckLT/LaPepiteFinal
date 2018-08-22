@@ -8,22 +8,24 @@ public class Designer {
 	
 	private String nom_designer;
 	
+	private String description_designer;
+	
 	private ArrayList<Bijoux> listBijoux;
 
-	public int getId() {
+	public int getId_designer() {
 		return id_designer;
 	}
 
-	public void setId(int id) {
-		this.id_designer = id;
+	public void setId_designer(int id_designer) {
+		this.id_designer = id_designer;
 	}
 
-	public String getNom() {
+	public String getNom_designer() {
 		return nom_designer;
 	}
 
-	public void setNom(String nom) {
-		this.nom_designer = nom;
+	public void setNom_designer(String nom_designer) {
+		this.nom_designer = nom_designer;
 	}
 
 	public ArrayList<Bijoux> getListBijoux() {
@@ -37,6 +39,16 @@ public class Designer {
 	public void addBijou(Bijoux bijou) {
 		listBijoux.add(bijou);
 	}
+
+	public String getDescription_designer() {
+		return description_designer;
+	}
+
+	public void setDescription_designer(String description_designer) {
+		this.description_designer = description_designer;
+	}
+	
+	
 	
 
 }

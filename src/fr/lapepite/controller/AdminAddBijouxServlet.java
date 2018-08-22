@@ -11,6 +11,7 @@ import fr.lapepite.javabean.Bijoux;
 import fr.lapepite.javabean.Categorie;
 import fr.lapepite.javabean.Designer;
 import fr.lapepite.services.BijouxServices;
+import sun.net.www.content.audio.wav;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -23,6 +24,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +40,7 @@ public class AdminAddBijouxServlet extends HttpServlet {
 	public static final String CHEMIN = "chemin";
 	public static final int TAILLE_TAMPON = 10240;
 	public static final String VUE_DO_GET = "/jsp/admin/formBijoux.jsp";
-	public static final String REDIRECT_DO_POST = "/LaPepite/admin/bijoux";
+	public static final String VUE_DO_POST = "/LaPepite/admin/bijoux";
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -53,7 +55,7 @@ public class AdminAddBijouxServlet extends HttpServlet {
 		request.setAttribute("listDesigners", listDesigners);
 		request.setAttribute("listCategories", listCategories);
 
-		getServletContext().getRequestDispatcher(VUE_DO_GET).forward(request, response);
+		redirectToView(request, response);
 
 	}
 
@@ -62,18 +64,48 @@ public class AdminAddBijouxServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
+			
+			HashMap<String, String> parametersMap = new HashMap<>();
+			
+			parametersMap = getParameters(request);
+			
+			BijouxServices bijouxServices = new BijouxServices();
+			
+			bijouxServices.addOne(parametersMap);
 
-			BijouxServices services = new BijouxServices();
-
-			BijouxServices.addOne(request);
-
-			response.sendRedirect(REDIRECT_DO_POST);
+			response.sendRedirect(VUE_DO_POST);
+			
 		}
 		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+	}
+	
+	private HashMap<String, String> getParameters (HttpServletRequest request) {
+		
+		Enumeration<String> listParameters = request.getParameterNames();
+		
+		HashMap<String, String> parametersMap = new HashMap<>();
+		
+		while (listParameters.hasMoreElements()) {
+			
+			String parameterName = listParameters.nextElement();
+			
+			String string = (String) request.getParameter(parameterName);
+			
+			parametersMap.put(parameterName, string);
+			
+		}
+		
+		return parametersMap;
+		
+	}
+	
+	private void redirectToView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		getServletContext().getRequestDispatcher(VUE_DO_GET).forward(request, response);
 	}
 
 
@@ -151,8 +183,13 @@ public class AdminAddBijouxServlet extends HttpServlet {
 			int longueur;
 			while ( ( longueur = entree.read( tampon ) ) > 0 ) {
 				sortie.write( tampon, 0, longueur );
-			}
-		} finally {
+			
+		} 
+			
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}finally {
 			System.out.println("YO");
 		}
 	}

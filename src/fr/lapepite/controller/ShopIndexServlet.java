@@ -16,10 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
 public class ShopIndexServlet extends HttpServlet {
 	
 	private BijouxServices bijouxServices;
@@ -36,9 +32,14 @@ public class ShopIndexServlet extends HttpServlet {
         listBijoux = new ArrayList<>();
         
         //ajout de la liste de tout les bijoux a l'arrayList
-        listBijoux.addAll(bijouxServices.getAll());
+        try {
+			listBijoux.addAll(bijouxServices.getAll());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
-        //on met la liste en attribut pour que la vue puisse la récupérer
+        //on met la liste en attribut pour que la vue puisse la récupérer 
         request.setAttribute("listBijoux", listBijoux);
         
         // on affiche la vue
@@ -53,11 +54,6 @@ public class ShopIndexServlet extends HttpServlet {
         
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
