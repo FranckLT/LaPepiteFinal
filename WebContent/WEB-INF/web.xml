@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>LaPepite</display-name>
+  <filter>
+    <filter-name>AdminFilter</filter-name>
+    <filter-class>fr.lapepite.filter.AdminFilter</filter-class>
+  </filter>
   <servlet>
     <servlet-name>homeServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.homeServlet</servlet-class>
@@ -13,6 +17,14 @@
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.LoginServlet</servlet-class>
   </servlet>
+    <servlet>
+    <servlet-name>AdminCommandesServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.AdminCommandesServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CommentaireServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.CommentaireServlet</servlet-class>
+  </servlet>
   <servlet>
     <servlet-name>RegisteringServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.RegisteringServlet</servlet-class>
@@ -22,12 +34,24 @@
     <servlet-class>fr.lapepite.controller.productServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>DesignersIndexServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.DesignersIndexServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DesignerServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.DesignerServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>panierServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.panierServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>UserServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.UserServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>OrderServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.OrderServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>AdminIndexServlet</servlet-name>
@@ -45,6 +69,35 @@
     <servlet-name>AdminAddBijouxServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.AdminAddBijouxServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AdminIndexCategoriesServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.AdminIndexCategoriesServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminAddCategoryServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.AdminAddCategoryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminEditCategoryServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.AdminEditCategoryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminAddDesignerServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.AdminAddDesignerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminEditDesignerServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.AdminEditDesignerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminIndexDesignersServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.AdminIndexDesignersServlet</servlet-class>
+  </servlet>
+  <filter-mapping>
+    <filter-name>AdminFilter</filter-name>
+    <url-pattern>/admin</url-pattern>
+    <url-pattern>/admin/*</url-pattern>
+  </filter-mapping>
   <servlet-mapping>
     <servlet-name>homeServlet</servlet-name>
     <url-pattern>/home</url-pattern>
@@ -66,6 +119,14 @@
     <url-pattern>/shop/product</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>DesignersIndexServlet</servlet-name>
+    <url-pattern>/designers</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DesignerServlet</servlet-name>
+    <url-pattern>/designers/designer</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>panierServlet</servlet-name>
     <url-pattern>/panier</url-pattern>
   </servlet-mapping>
@@ -74,8 +135,20 @@
     <url-pattern>/user</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>CommentaireServlet</servlet-name>
+    <url-pattern>/commentaire</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OrderServlet</servlet-name>
+    <url-pattern>/user/order</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>AdminIndexServlet</servlet-name>
     <url-pattern>/admin</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>AdminCommandesServlet</servlet-name>
+    <url-pattern>/admin/commandes</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AdminIndexBijouxServlet</servlet-name>
@@ -88,6 +161,30 @@
   <servlet-mapping>
     <servlet-name>AdminAddBijouxServlet</servlet-name>
     <url-pattern>/admin/bijoux/add</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminIndexCategoriesServlet</servlet-name>
+    <url-pattern>/admin/categories</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminAddCategoryServlet</servlet-name>
+    <url-pattern>/admin/categories/add</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminEditCategoryServlet</servlet-name>
+    <url-pattern>/admin/categories/edit</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminAddDesignerServlet</servlet-name>
+    <url-pattern>/admin/designers/add</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminEditDesignerServlet</servlet-name>
+    <url-pattern>/admin/designers/edit</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminIndexDesignersServlet</servlet-name>
+    <url-pattern>/admin/designers</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>

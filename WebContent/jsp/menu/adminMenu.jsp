@@ -4,9 +4,9 @@
 			<ul>
 				<li class="menu-bijoux col-md-2 col-sm-12"><a
 					href="/LaPepite/admin/bijoux">Bijoux</a></li>
-				<li class="menu-bijoux col-md-2 col-sm-12"><a href="/LaPepite/admin/designer">Designer</a>
+				<li class="menu-bijoux col-md-2 col-sm-12"><a href="/LaPepite/admin/designers">Designer</a>
 				</li>
-				<li class="menu-bijoux col-md-2 col-sm-12"><a href="/LaPepite/admin/categorie">Catégorie</a>
+				<li class="menu-bijoux col-md-2 col-sm-12"><a href="/LaPepite/admin/categories">Catégorie</a>
 				</li>
 				<li class="menu-bijoux col-md-2 col-sm-12"><a href="/LaPepite/admin/commande">Commande</a>
 				</li>

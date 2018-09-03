@@ -7,9 +7,7 @@ package fr.lapepite.controller;
 
 import fr.lapepite.javabean.LignePanier;
 import fr.lapepite.javabean.Utilisateur;
-import fr.lapepite.services.UtilisateurServices;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,19 +19,24 @@ import javax.servlet.http.HttpServletResponse;
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class panierServlet extends HttpServlet {
-	private UtilisateurServices utilisateurServices;	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Utilisateur utilisateur;
+	private List<LignePanier> listLignePanier;
 	
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-    	utilisateurServices = new UtilisateurServices();
     	
-        if (utilisateurServices.testIfUtilisateurIsConnected(request)) {
-        	
-            Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+    	utilisateur = null;
+    	
+    	utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+    	
+        if (utilisateur != null) {
             
-            List<LignePanier> listLignePanier = utilisateur.getPanier().getListProduit();
+            listLignePanier = utilisateur.getPanier().getListProduit();
             
             request.setAttribute("listLignePanier", listLignePanier);
             

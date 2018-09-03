@@ -6,7 +6,6 @@
 package fr.lapepite.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 
 public class homeServlet extends HttpServlet {
 
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
    
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          getServletContext().getRequestDispatcher("/jsp/home.jsp").forward(request, response);
@@ -32,10 +35,6 @@ public class homeServlet extends HttpServlet {
        
     }
 
-   
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+
 
 }

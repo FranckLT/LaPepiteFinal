@@ -5,22 +5,29 @@
  */
 package fr.lapepite.controller;
 
+import fr.lapepite.javabean.Utilisateur;
 import fr.lapepite.services.UtilisateurServices;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Enumeration;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class LoginServlet extends HttpServlet {
-	private UtilisateurServices utilisateurServices;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private UtilisateurServices utilisateurServices= new UtilisateurServices();;
+	private Utilisateur utilisateur;
+	private HashMap<String, String> parametersList = new HashMap<>();
 	
 	
     @Override
@@ -37,25 +44,41 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException { 
         
         try {
-        	
-            utilisateurServices = new UtilisateurServices();
-        	
-            utilisateurServices.logUtilisateur(request, response);
+
+    		parametersList.putAll(getParameters(request));
+ 
+            utilisateur = utilisateurServices.logUtilisateur(parametersList);
+            
+            request.getSession().setAttribute("utilisateur", utilisateur);
+            
+            response.sendRedirect("/LaPepite/home");
             
         } catch (Exception ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("errorMessage", ex.getMessage());
+            getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+            
         }
         
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    private HashMap<String, String> getParameters (HttpServletRequest request) {
+
+		Enumeration<String> listParameters = request.getParameterNames();
+
+		HashMap<String, String> parametersMap = new HashMap<>();
+
+		while (listParameters.hasMoreElements()) {
+
+			String parameterName = listParameters.nextElement();
+
+			String string = (String) request.getParameter(parameterName);
+
+			parametersMap.put(parameterName, string);
+
+		}
+
+		return parametersMap;
+
+	}
 
 }

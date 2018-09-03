@@ -1,0 +1,75 @@
+* {
+	box-sizing: border-box;
+	font-family: 'Cairo', sans-serif;
+}
+
+html, body {
+	padding: 0;
+	margin: 0;
+	font-family: 'Open Sans', sans-serif;
+	color: #000;
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+}
+
+.background {
+	background-image: url(../image/header-container.jpg);
+	height: auto;
+	background-repeat: no-repeat;
+	background-size: cover;
+	margin: 0;
+	height: 1000px;
+}
+
+#shopButton {
+	border-radius: 12px 0 12px 0;
+	background: #DCC760;
+	border: none;
+	color: #fff;
+	font: bold 18px Verdana;
+	padding: 6px;
+	margin: auto;
+}
+
+.footer{
+	box-shadow: 0px -2px 0px 0px #cfcfcf;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf,
+		Direction=180, Strength=5);
+	border-radius: 10px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#site-footer {
+	color: #C79A46;
+	padding: 100px 0;
+}
+
+
+#site-footer a {
+	color: #C79A46;
+	text-decoration: none;
+}
+
+
+#stay-in-touch input[type=text] {
+	font-size: 0.875rem;
+	padding: 20px;
+	border: 1px solid #C79A46;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	width: calc(100% - 50px);
+}
+
+#stay-in-touch button {
+	font-size: 0.875rem;
+	padding: 20px;
+	border: none;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	background-color: #C79A46;
+	color: white;
+}

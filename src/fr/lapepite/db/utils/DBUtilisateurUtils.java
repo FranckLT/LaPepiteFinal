@@ -9,13 +9,10 @@ package fr.lapepite.db.utils;
 import fr.lapepite.javabean.Panier;
 import fr.lapepite.javabean.Utilisateur;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,7 +131,7 @@ public class DBUtilisateurUtils {
 		}
 	}
 
-	public static List<String> requestSelectAllEmailUtilisateur() {
+	public static List<String> requestSelectAllEmailUtilisateur() throws Exception {
 
 		List<String> listEmailUtilisateurs=new ArrayList<>();
 
@@ -156,8 +153,8 @@ public class DBUtilisateurUtils {
 			return listEmailUtilisateurs;
 		}
 		catch (final SQLException e) {
-			e.printStackTrace();
-			return listEmailUtilisateurs;
+			throw new Exception("Une erreur c'est produite lors de la récupération des données");
+
 		}
 		finally {
 
@@ -189,7 +186,7 @@ public class DBUtilisateurUtils {
 		return user;
 	}
 
-	private static Utilisateur rsetToUser( ResultSet rSet) throws SQLException{
+	public static Utilisateur rsetToUser( ResultSet rSet) throws SQLException{
 
 		Utilisateur user = new Utilisateur();
 

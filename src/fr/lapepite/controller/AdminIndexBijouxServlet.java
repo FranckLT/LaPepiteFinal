@@ -5,12 +5,12 @@
  */
 package fr.lapepite.controller;
 
-import fr.lapepite.db.utils.DBBijouxUtils;
 import fr.lapepite.javabean.Bijoux;
+import fr.lapepite.method.Method;
 import fr.lapepite.services.BijouxServices;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,41 +22,60 @@ import javax.servlet.http.HttpServletResponse;
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class AdminIndexBijouxServlet extends HttpServlet {
-	
-	public static final String URL_AFTER_DELETE = "/LaPepite/admin/bijoux";
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        BijouxServices bijouxServices = new BijouxServices();
-        
-        List<Bijoux> listBijoux = new ArrayList<>();
-        
-        try {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static final String URL_AFTER_DELETE = "/LaPepite/admin/bijoux";
+	private BijouxServices bijouxServices;
+	private List<Bijoux> listBijoux;
+	private HashMap<String, String> parametersList;
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		bijouxServices = new BijouxServices();
+
+		listBijoux = new ArrayList<>();
+
+		try {
 			listBijoux = bijouxServices.getAll();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
-        request.setAttribute("listBijoux", listBijoux);
-        
-        getServletContext().getRequestDispatcher("/jsp/admin/adminIndexBijoux.jsp").forward(request, response);
-        
-    }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-    	
-    	BijouxServices services = new BijouxServices();
-    	
-    	services.deleteBijoux(request);
-    	
-    	response.sendRedirect(URL_AFTER_DELETE);
-        
-    }
+		request.setAttribute("listBijoux", listBijoux);
+
+		getServletContext().getRequestDispatcher("/jsp/admin/adminIndexBijoux.jsp").forward(request, response);
+
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		parametersList = new HashMap<>();
+		bijouxServices = new BijouxServices();
+
+		try {
+			
+		parametersList.putAll(Method.getParameters(request));
+	
+		bijouxServices.deleteBijoux(parametersList);
+		
+		response.sendRedirect(URL_AFTER_DELETE);
+		
+		} catch (Exception e) {
+			request.setAttribute("errorMessage", e.getMessage());
+			getServletContext().getRequestDispatcher("/jsp/admin/adminIndexBijoux.jsp").forward(request, response);
+		}
+
+		
+
+	}
 
 
 }

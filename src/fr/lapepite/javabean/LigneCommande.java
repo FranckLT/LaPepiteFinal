@@ -2,19 +2,10 @@ package fr.lapepite.javabean;
 
 public class LigneCommande {
 	
-	private Commande commande;
-	
 	private Bijoux bijoux;
 	
 	private int quantite_lignecommande;
-
-	public Commande getCommande() {
-		return commande;
-	}
-
-	public void setCommande(Commande commande) {
-		this.commande = commande;
-	}
+ 
 
 	public Bijoux getBijoux() {
 		return bijoux;

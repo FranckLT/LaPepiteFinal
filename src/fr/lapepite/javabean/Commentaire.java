@@ -9,6 +9,16 @@ public class Commentaire {
 	private String texte_commentaire;
 	
 	private Date date_commentaire;
+	
+	private Utilisateur utilisateur;
+
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
+
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
+	}
 
 	public int getId_commentaire() {
 		return id_commentaire;

@@ -6,9 +6,13 @@
 package fr.lapepite.controller;
 
 import fr.lapepite.javabean.Bijoux;
+import fr.lapepite.javabean.Categorie;
+import fr.lapepite.javabean.Designer;
 import fr.lapepite.services.BijouxServices;
+import fr.lapepite.services.CategorieServices;
+import fr.lapepite.services.DesignerServices;
+
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -18,32 +22,48 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShopIndexServlet extends HttpServlet {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String CHEMIN_JSP_SHOP_INDEX = "/jsp/shopIndex.jsp";
 	private BijouxServices bijouxServices;
+	private CategorieServices categorieServices;
+	private DesignerServices designerServices;
 	private List<Bijoux> listBijoux;
+	private List<Categorie> categoriesList;
+	private List<Designer> designersList;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-    	// initialisation du service 
+    	// initialisation des service 
         bijouxServices = new BijouxServices();
+        designerServices = new DesignerServices();
+        categorieServices = new CategorieServices();
         
-        //initialisation de la liste
+        //initialisation des liste
         listBijoux = new ArrayList<>();
+        categoriesList = new ArrayList<>();
+        designersList =  new ArrayList<>();
         
-        //ajout de la liste de tout les bijoux a l'arrayList
+        //ajout des listes de tout les bijoux/designers/categories aux arrayList
         try {
 			listBijoux.addAll(bijouxServices.getAll());
+			categoriesList.addAll(categorieServices.getAllCategories());
+			designersList.addAll(designerServices.getAllDesigners());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("errorMessage", e.getMessage());
 		}
         
         //on met la liste en attribut pour que la vue puisse la récupérer 
         request.setAttribute("listBijoux", listBijoux);
+        request.setAttribute("categoriesList", categoriesList);
+        request.setAttribute("designersList", designersList);
         
         // on affiche la vue
-        getServletContext().getRequestDispatcher("/jsp/shopIndex.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher(CHEMIN_JSP_SHOP_INDEX).forward(request, response);
        
     }
 
@@ -54,9 +74,5 @@ public class ShopIndexServlet extends HttpServlet {
         
     }
 
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

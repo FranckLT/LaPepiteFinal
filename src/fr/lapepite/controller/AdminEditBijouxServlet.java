@@ -2,9 +2,10 @@ package fr.lapepite.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,8 @@ import fr.lapepite.javabean.Bijoux;
 import fr.lapepite.javabean.Categorie;
 import fr.lapepite.javabean.Designer;
 import fr.lapepite.services.BijouxServices;
+import fr.lapepite.services.CategorieServices;
+import fr.lapepite.services.DesignerServices;
 
 /**
  * Servlet implementation class AdminEditBijouxServlet
@@ -23,50 +26,61 @@ public class AdminEditBijouxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String VUE_DO_GET = "/jsp/admin/formBijoux.jsp";
 	public static final String REDIRECT_DO_POST = "/LaPepite/admin/bijoux";
+	BijouxServices bijouxServices;
+	CategorieServices categorieServices;
+	DesignerServices designerServices;
+	HashMap<String, String> parametersList;
+	ArrayList<Designer> listDesigners;
+	ArrayList<Categorie> listCategories;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public AdminEditBijouxServlet() {
-		super();
-		
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		ArrayList<Designer> listDesigners = new ArrayList<>();
-		ArrayList<Categorie> listCategories = new ArrayList<>();
+		bijouxServices = new BijouxServices();
+		categorieServices = new CategorieServices();
+		designerServices = new DesignerServices();
+		parametersList = new HashMap<>();
+		listDesigners = new ArrayList<>();
+		listCategories = new ArrayList<>();
+		
+		try {
+			parametersList.putAll(getParameters(request));
 
-		listCategories.addAll(DBCategorieUtils.requestSelect());
-		listDesigners.addAll(DBDesignerUtils.requestSelect());
+			listCategories.addAll(categorieServices.getAllCategories());
 
-		request.setAttribute("listDesigners", listDesigners);
-		request.setAttribute("listCategories", listCategories);
+			listDesigners.addAll(designerServices.getAllDesigners());
 
-		Bijoux bijoux = new Bijoux();
+			request.setAttribute("listDesigners", listDesigners);
+			request.setAttribute("listCategories", listCategories);
 
-		bijoux=BijouxServices.getOneBijoux(request);
+			Bijoux bijoux = new Bijoux();
 
-		request.setAttribute("bijoux", bijoux);
+			bijoux = bijouxServices.getOneBijoux(parametersList);
+
+			request.setAttribute("bijoux", bijoux);
+
+		} catch (Exception e) {
+
+			request.setAttribute("errorMessage", e.getMessage());
+
+		}
 
 		getServletContext().getRequestDispatcher(VUE_DO_GET).forward(request, response);
+		
 	}
 
-	/**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		try {	
 			
-			BijouxServices.updateOne(request);
+			parametersList = new HashMap<>();
+
+			parametersList.putAll(getParameters(request));
+
+			bijouxServices.updateOne(parametersList);
 
 			response.sendRedirect(REDIRECT_DO_POST);
 
@@ -75,6 +89,28 @@ public class AdminEditBijouxServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private HashMap<String, String> getParameters (HttpServletRequest request) {
+
+		Enumeration<String> listParameters = request.getParameterNames();
+
+		HashMap<String, String> parametersMap = new HashMap<>();
+
+		while (listParameters.hasMoreElements()) {
+
+			String parameterName = listParameters.nextElement();
+
+			System.out.println(parameterName);
+			
+			String string = (String) request.getParameter(parameterName);
+
+			parametersMap.put(parameterName, string);
+
+		}
+
+		return parametersMap;
+
 	}
 
 }

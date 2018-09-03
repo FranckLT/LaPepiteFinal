@@ -7,9 +7,7 @@ package fr.lapepite.controller;
 
 import fr.lapepite.javabean.Utilisateur;
 import fr.lapepite.services.LignePanierServices;
-import fr.lapepite.services.UtilisateurServices;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Enumeration;
 
 import javax.servlet.ServletException;
@@ -18,9 +16,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 public class UserServlet extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final static String CHEMIN_JSP_USER = "/jsp/user.jsp";
+	private LignePanierServices lignePanierServices;
+	private Utilisateur utilisateur;
+	private Enumeration<String> parametersList;
+	private int idProduit;
+	private HttpSession session;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,17 +42,15 @@ public class UserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		Enumeration<String> list = request.getParameterNames();
+		parametersList = request.getParameterNames();
+		lignePanierServices = new LignePanierServices();
+		utilisateur =  new Utilisateur();
 
-		LignePanierServices lignePanierServices = new LignePanierServices();
-
-		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+		utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
 		
-		int idProduit;
+		while (parametersList.hasMoreElements()) {
 
-		while (list.hasMoreElements()) {
-
-			final String parameterName = list.nextElement();
+			final String parameterName = parametersList.nextElement();
 
 			if ("addOne".equals(parameterName)) {
 				
@@ -61,7 +67,7 @@ public class UserServlet extends HttpServlet {
 			}
 		}
 		
-		HttpSession session = request.getSession();
+		session = request.getSession();
 		
 		session.setAttribute("utilisateur", utilisateur);
 

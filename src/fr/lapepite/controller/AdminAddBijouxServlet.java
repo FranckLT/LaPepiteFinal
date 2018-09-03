@@ -7,11 +7,9 @@ package fr.lapepite.controller;
 
 import fr.lapepite.db.utils.DBCategorieUtils;
 import fr.lapepite.db.utils.DBDesignerUtils;
-import fr.lapepite.javabean.Bijoux;
 import fr.lapepite.javabean.Categorie;
 import fr.lapepite.javabean.Designer;
 import fr.lapepite.services.BijouxServices;
-import sun.net.www.content.audio.wav;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -19,13 +17,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +30,10 @@ import javax.servlet.http.Part;
 
 public class AdminAddBijouxServlet extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final String CHAMP_DESCRIPTION = "description";
 	public static final String CHAMP_FICHIER = "fichier";
 	public static final String CHEMIN = "chemin";
@@ -48,20 +47,31 @@ public class AdminAddBijouxServlet extends HttpServlet {
 
 		ArrayList<Designer> listDesigners = new ArrayList<>();
 		ArrayList<Categorie> listCategories = new ArrayList<>();
+		
+		try {
+			
+			listCategories.addAll(DBCategorieUtils.selectAllCategories());
+			listDesigners.addAll(DBDesignerUtils.selectAllDesigners());
+			
+			request.setAttribute("listDesigners", listDesigners);
+			request.setAttribute("listCategories", listCategories);
 
-		listCategories.addAll(DBCategorieUtils.requestSelect());
-		listDesigners.addAll(DBDesignerUtils.requestSelect());
+			
+		} catch (Exception e) {
+			
+			request.setAttribute("errorMessage", e.getMessage());
+			
+		}
 
-		request.setAttribute("listDesigners", listDesigners);
-		request.setAttribute("listCategories", listCategories);
-
+		
 		redirectToView(request, response);
+		
 
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException{
 
 		try {
 			
@@ -77,35 +87,38 @@ public class AdminAddBijouxServlet extends HttpServlet {
 			
 		}
 		catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			request.setAttribute("errorMessage", e.getMessage());
+		
+			redirectToView(request, response);
+			
 		}
 
-	}
-	
-	private HashMap<String, String> getParameters (HttpServletRequest request) {
-		
-		Enumeration<String> listParameters = request.getParameterNames();
-		
-		HashMap<String, String> parametersMap = new HashMap<>();
-		
-		while (listParameters.hasMoreElements()) {
-			
-			String parameterName = listParameters.nextElement();
-			
-			String string = (String) request.getParameter(parameterName);
-			
-			parametersMap.put(parameterName, string);
-			
-		}
-		
-		return parametersMap;
-		
 	}
 	
 	private void redirectToView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		getServletContext().getRequestDispatcher(VUE_DO_GET).forward(request, response);
+	}
+	
+	private HashMap<String, String> getParameters (HttpServletRequest request) {
+
+		Enumeration<String> listParameters = request.getParameterNames();
+
+		HashMap<String, String> parametersMap = new HashMap<>();
+
+		while (listParameters.hasMoreElements()) {
+
+			String parameterName = listParameters.nextElement();
+
+			String string = (String) request.getParameter(parameterName);
+
+			parametersMap.put(parameterName, string);
+
+		}
+
+		return parametersMap;
+
 	}
 
 

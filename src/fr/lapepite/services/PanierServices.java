@@ -11,61 +11,90 @@ import fr.lapepite.javabean.Bijoux;
 import fr.lapepite.javabean.LignePanier;
 import fr.lapepite.javabean.Panier;
 import fr.lapepite.javabean.Utilisateur;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * 
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class PanierServices {
-    
-    public void insertPanier(Panier panier){
-    	
-        try {
-        
-        //Enregistrement en BD du panier
-        DBPanierUtils.insertPanier(panier);
-        
-        } catch (Exception ex) {
-            Logger.getLogger(PanierServices.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-    }
-    
-    
-    public void addBijouxToPanier(HttpServletRequest request) throws ServletException, IOException{
-      
-        //récup utilisateur
-        HttpSession session = request.getSession();
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-        
-        //Création Bijoux
-        Bijoux bijoux = new Bijoux(); 
-        bijoux = BijouxServices.getOneBijoux(request);
-        
-        //Création LignePanier
-        LignePanier lignePanier = new LignePanier();       
-        lignePanier.setBijoux(bijoux);
-        lignePanier.setQuantite_lignepanier(Integer.parseInt(request.getParameter("numberOfProduct")));
-        
-        //Ajout de la ligne au panier
-        Panier panier = utilisateur.getPanier();
-        
-        panier.addLigneToPanier(lignePanier);
-        
-        System.out.println(lignePanier.getQuantite_lignepanier() +" "+lignePanier.getBijoux().getNom_bijoux()+ " Prix = "+lignePanier.getQuantite_lignepanier()*lignePanier.getBijoux().getPrix_bijoux() );
-        
-        UtilisateurServices utilisateurServices = new UtilisateurServices();
-        
-        utilisateurServices.setSession(request, utilisateur);
-        
-    }
+
+	public void insertPanier(Panier panier){
+
+		try {
+
+			//Enregistrement en BD du panier
+			DBPanierUtils.insertPanier(panier);
+
+		} catch (Exception ex) {
+			Logger.getLogger(PanierServices.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+
+	}
+
+
+	public Utilisateur addBijouxToPanier(HashMap<String, String> parametersList, Utilisateur utilisateur) throws Exception{
+
+		//variables
+		Panier panier = new Panier();
+		panier = utilisateur.getPanier();
+		List<LignePanier> listLignePanier = new ArrayList<>();
+		listLignePanier = panier.getListProduit();
+		Bijoux bijoux = new Bijoux();
+		BijouxServices bijouxServices = new BijouxServices();
+		LignePanier lignePanierToAdd = new LignePanier();   
+		int nbrBijouxCommandées = Integer.parseInt(parametersList.get("numberOfProduct"));
+		LignePanierServices lignePanierServices = new LignePanierServices();
+
+		//Création Bijoux
+		bijoux = bijouxServices.getOneBijoux(parametersList);
+
+		if (listLignePanier.isEmpty()) {
+			//Création LignePanier
+
+			lignePanierToAdd = lignePanierServices.createOneLigne_panier(bijoux, nbrBijouxCommandées);
+
+			//Ajout de la ligne au panier
+
+
+			panier.addLigneToPanier(lignePanierToAdd);
+
+			System.out.println("Ajout ligne");
+		} else {
+
+			for (LignePanier lignePanier : listLignePanier) {
+
+				if (bijoux.getId_bijoux() == lignePanier.getBijoux().getId_bijoux()) {
+
+					lignePanierServices.addXtoQuantity(lignePanier, nbrBijouxCommandées);
+
+					System.out.println("Modifié qte");
+
+				} else {
+
+					lignePanierToAdd = lignePanierServices.createOneLigne_panier(bijoux, nbrBijouxCommandées);
+
+					//Ajout de la ligne au panier
+
+
+					panier.addLigneToPanier(lignePanierToAdd);
+
+					System.out.println("Ajout ligne");
+
+				}
+
+			}
+			
+		}
+		
+		panier.updateTotal_panier();
+
+		return utilisateur;
+	}
 
 }
