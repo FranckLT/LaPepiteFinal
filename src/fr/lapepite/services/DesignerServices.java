@@ -31,6 +31,15 @@ public ArrayList<Designer> getAllDesigners() throws Exception {
 		return designersList;
 	}
 
+public int getNumberOfDesigners() throws Exception {
+	
+	ArrayList<Designer> designersList = new ArrayList<>();
+	
+	designersList.addAll(getAllDesigners());
+	
+	return designersList.size();
+}
+
 public Designer getOneDesigner (HashMap<String, String> parametersList) throws NumberFormatException, Exception {
 	
 	Designer designer = new Designer();

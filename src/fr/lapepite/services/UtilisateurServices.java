@@ -32,8 +32,6 @@ public class UtilisateurServices {
 			throw new Exception(e.getMessage());
 		}
 
-
-
 	}
 
 	public Utilisateur logUtilisateur(HashMap<String, String> parametersList) throws ServletException, IOException, Exception{

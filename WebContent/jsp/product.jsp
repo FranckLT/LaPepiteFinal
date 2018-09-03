@@ -37,7 +37,7 @@
 						alt="image de bijoux">
 					<div class="card-body">
 						<h3 class="card-title">${bijoux.nom_bijoux}</h3>
-						<h4>${bijoux.prix_bijoux}€</h4>
+						<h4 class="prixBijoux pl-3">${bijoux.prix_bijoux} €</h4>
 						<p class="card-text">${bijoux.description_bijoux}</p>
 						<div class="row justify-content-between">
 							<form id="product-form"

@@ -13,22 +13,22 @@
 
 					<c:choose>
 					<c:when test="${not empty sessionScope.utilisateur}">
+					
 							<c:choose>
 								<c:when test="${sessionScope.utilisateur.admin == true}">
 									<li class="col-md-2"><a href="/LaPepite/admin"><i
-										class="fa fa-users"> ${sessionScope.utilisateur.nom_utilisateur}</i></a></li>
+										class="fas fa-user-cog"></i> ${sessionScope.utilisateur.nom_utilisateur}</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="col-md-2"><a href="/LaPepite/user"><i
 										class="fa fa-shopping-cart"></i> ${sessionScope.utilisateur.panier.total_panier} &euro;</a></li>
 								</c:otherwise>
-							
 							</c:choose>
 							
 						</c:when>
 						<c:otherwise>
 							<li class="col-md-2"><a href="/LaPepite/login"><i
-									class="fa fa-users"></i></a></li>
+									class="fa fa-user"></i></a></li>
 						</c:otherwise>
 						
 

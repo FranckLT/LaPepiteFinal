@@ -8,9 +8,9 @@
 				</li>
 				<li class="menu-bijoux col-md-2 col-sm-12"><a href="/LaPepite/admin/categories">Catégorie</a>
 				</li>
-				<li class="menu-bijoux col-md-2 col-sm-12"><a href="/LaPepite/admin/commande">Commande</a>
+				<li class="menu-bijoux col-md-2 col-sm-12"><a href="/LaPepite/admin/commandes">Commande</a>
 				</li>
-				<li class="menu-bijoux col-md-2 col-sm-12"><a href="/LaPepite/admin/utilisateur">Utilisateurs</a>
+				<li class="menu-bijoux col-md-2 col-sm-12"><a href="/LaPepite/admin/utilisateurs">Utilisateurs</a>
 				</li>
 			</ul>
 		</nav>

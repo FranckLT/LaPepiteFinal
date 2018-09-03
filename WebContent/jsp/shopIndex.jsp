@@ -38,11 +38,11 @@
 
 						<h4 class="card-title">
 
-							<a href="shop/product?id=${bijoux.id_bijoux}">${bijoux.nom_bijoux}</a>
+							<a href="shop/product?id=${bijoux.id_bijoux}" class="text-dark">${bijoux.nom_bijoux}</a>
 
 						</h4>
 
-						<h5>${ bijoux.prix_bijoux }€</h5>
+						<h5 class="prixBijoux">${ bijoux.prix_bijoux }€</h5>
 
 						<p class="card-text designerName">${ bijoux.designer.nom_designer }</p>
 

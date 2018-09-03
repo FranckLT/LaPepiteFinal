@@ -12,40 +12,52 @@
 	<%@include file="../menu/adminMenu.jsp"%>
 	
 	
+	
 	<div class="container mt-4">
+	
+		<a href="/LaPepite/admin/categories/add" class="btn btn-success mb-3">Ajouter une catégorie</a>
 
-		<a href="/LaPepite/admin/categories/add" class="m-5 btn btn-success">Ajouter
-			une categorie</a>
+		<h2 class="col-12 text-center mb-3">Liste des catégories</h2>
 
-		<h2>Liste des categories existants</h2>
+		<div class="row flex-column border border-dark shadow-lg rounded">
+			<div class="col-auto border border-dark m-2 shadow-sm rounded">
+				<div class="row m-0 flex-row p-4 shadow-sm rounded">
 
-		</br>
+					<div class="col-4 text-primary text-center">N° catégorie</div>
+					<div class="col-4 text-primary text-center">Nom Catégorie</div>
+					<div class="col-4 text-primary text-center">Actions</div>
 
-		<div class="table-responsive">
-			<table class="table table-striped table-sm">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th class="col-md-2">Nom</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${categoriesList}" var="categorie" varStatus="status">
-						<tr>
-							<th>${categorie.id_categorie}
-							</td>
-							<td>${categorie.nom_categorie}</td>
-							<td class="col-md-4"><input type="button"
-								class="btn btn-danger btn-send" value="Supprimer"
+				</div>
+
+				<c:forEach items="${categoriesList}" var="categorie"
+					varStatus="status">
+
+
+						<div class="row m-0 mt-1 flex-row text-dark">
+
+							<div class="col-12">
+								<div class="row">
+									<div class="col-4 text-center">${categorie.id_categorie}</div>
+									<div class="col-4 text-center">${categorie.nom_categorie}</div>
+									
+									<div class="col-4">
+										<div class="row">
+										<input type="button"
+								class="btn btn-danger btn-send col-6" value="Supprimer"
 								onClick="onDeleteCategorie('${categorie.nom_categorie}','${categorie.id_categorie}')">
-								<a href="/LaPepite/admin/categories/edit?id=${categorie.id_categorie}"
-								class="btn btn-primary btn-send">Modifier</a></td>
+										<a href="/LaPepite/admin/categories/edit?id=${categorie.id_categorie}"
+								class="btn btn-primary btn-send col-6">Modifier</a>
+										</div>	
+									</div>
 
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+
+								</div>
+							</div>
+						</div>
+
+						<hr>
+  				</c:forEach>
+			</div>
 		</div>
 	</div>
 	

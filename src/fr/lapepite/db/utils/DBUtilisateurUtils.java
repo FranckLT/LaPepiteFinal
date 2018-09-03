@@ -106,11 +106,8 @@ public class DBUtilisateurUtils {
 
 			stmtUtilisateur.setString(1, utilisateur.getNom_utilisateur());
 			stmtUtilisateur.setString(2, utilisateur.getPrenom_utilisateur());
-			
 			stmtUtilisateur.setString(3, utilisateur.getAdresse_utilisateur());
-			
 			stmtUtilisateur.setString(4, utilisateur.getMail_utilisateur());
-			
 			stmtUtilisateur.setBoolean(5, utilisateur.isAdmin());
 			stmtUtilisateur.setString(6, utilisateur.getPassword_utilisateur());
 
@@ -118,7 +115,7 @@ public class DBUtilisateurUtils {
 
 		} catch(Exception e){
 			
-			throw new Exception("L'utilisateur n'a pu être enregistré.");
+			throw new Exception("L'utilisateur n'a pas pu être enregistré.");
 
 		}finally {
 			if (con != null) {

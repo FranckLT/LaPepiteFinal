@@ -25,8 +25,9 @@ import fr.lapepite.javabean.Utilisateur;
 public class DBCommandeUtils {
 	
 	private static final String QUERY_INSERT_COMMANDE = "INSERT INTO Commande VALUES (null, ?, ?, ?, ?, ?, ?)";
-	private static final String QUERY_SELECT_ALL_COMMANDE = "SELECT * FROM Commande INNER JOIN Utilisateur ON Utilisateur.id_utilisateur = Commande.id_utilisateur INNER JOIN ligne_commande ON ligne_commande.id_commande = Commande.id_commande INNER JOIN Bijoux ON Bijoux.id_bijoux = ligne_commande.id_bijoux";
+	private static final String QUERY_SELECT_ALL_COMMANDE = "SELECT * FROM Commande INNER JOIN Utilisateur ON Utilisateur.id_utilisateur = Commande.id_utilisateur ORDER BY Commande.id_commande ASC";
 	private static final String QUERY_SELECT_LAST_COMMANDE = "SELECT * FROM Commande WHERE id_utilisateur=? ORDER BY id_commande DESC LIMIT 1";
+	private static final String QUERY_SELECT_COMMANDE_BY_ID = "SELECT * FROM Commande INNER JOIN Utilisateur ON Utilisateur.id_utilisateur = Commande.id_utilisateur WHERE id_commande=?";
 	
 	public static void insertCommande(Commande commande, Utilisateur utilisateur) throws Exception {
 
@@ -150,9 +151,52 @@ public class DBCommandeUtils {
 		}
 	}
 	
+	public static Commande selectCommandeById(int idCommande) throws Exception {
+
+		Commande commande = new Commande();
+
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		try {
+
+			con = ConnexionJDBC.getConnection();
+
+			stmt = con.prepareStatement(QUERY_SELECT_COMMANDE_BY_ID);
+
+			stmt.setInt(1, idCommande);
+
+			ResultSet rset = stmt.executeQuery();
+
+			while (rset.next()) {
+
+				commande = rsetToCommande(rset);
+
+			}
+
+			return commande;
+
+		}
+		catch (final SQLException e) {
+			throw new Exception("Une erreur c'est produite lors de la récupération des données");
+
+		}
+		finally {
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	
 	public static Commande rsetToCommande(ResultSet resultSet) throws SQLException {
-		Commande commande = new Commande();	
+		
+		Commande commande = new Commande();
 		
 		commande.setId_commande(resultSet.getInt("id_commande"));
 		commande.setDate_commande(resultSet.getDate("date_commande"));
@@ -160,6 +204,8 @@ public class DBCommandeUtils {
 		commande.setTVA_commande(resultSet.getDouble("TVA_commande"));
 		commande.setTotalTTC_commande(resultSet.getDouble("totalTTC_commande"));
 		commande.setCheked(resultSet.getBoolean("cheked"));
+		Utilisateur utilisateur = DBUtilisateurUtils.rsetToUser(resultSet);
+		commande.setUtilisateur(utilisateur);
 		
 		return commande;
 		

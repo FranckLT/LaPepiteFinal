@@ -31,6 +31,16 @@ public class BijouxServices{
 			throw new Exception(e.getMessage());
 		}
 	}
+	
+	public int getNumberOfBijoux() throws Exception {
+		
+		List<Bijoux> listBijoux = new ArrayList<>();
+		
+		listBijoux.addAll(getAll());
+		
+		return listBijoux.size();
+		
+	}
 
 	public Bijoux getOneBijoux(HashMap<String, String> parametersList) throws Exception {
 

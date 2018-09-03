@@ -15,15 +15,16 @@ import fr.lapepite.services.CommandeServices;
 /**
  * Servlet implementation class AdminCommandesServlet
  */
-public class AdminCommandesServlet extends HttpServlet {
+public class AdminIndexCommandesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String CHEMIN_JSP_INDEX_COMMANDES ="/jsp/admin/indexCommandes.jsp";
 	private List<Commande> commandesList;
 	private CommandeServices commandeServices;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminCommandesServlet() {
+    public AdminIndexCommandesServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,18 +38,18 @@ public class AdminCommandesServlet extends HttpServlet {
 		commandeServices = new CommandeServices();
 		
 		try {
+			
 			commandesList = commandeServices.getAllCommandes();
 			
 			request.setAttribute("commandesList", commandesList);
 			
-			getServletContext().getRequestDispatcher("").forward(request, response);
-			
-			
-			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			request.setAttribute("errorMessage", e.getMessage());
+			
 		}
+		
+		getServletContext().getRequestDispatcher(CHEMIN_JSP_INDEX_COMMANDES).forward(request, response);
 		
 	}
 

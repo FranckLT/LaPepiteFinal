@@ -47,12 +47,12 @@
 						</div>
 						<div class="form-group">
 							<label for="inputPrix">Prix : </label> <input type="number"
-								class="form-control" id="inputPrix" name="prixBijoux"
+								step="any" class="form-control" id="inputPrix" name="prixBijoux"
 								value="${bijoux.prix_bijoux}">
 						</div>
 						<div class="form-group">
-							<label for="inputPrix">Description</label> <input type="text"
-								class="form-control" id="inputPrix" name="descriptionBijoux"
+							<label for="inputDescription">Description</label> <input type="text"
+								class="form-control" id="inputDescription" name="descriptionBijoux"
 								value="${bijoux.description_bijoux}">
 						</div>
 						<div class="form-group">
@@ -126,7 +126,7 @@
 								name="refBijoux">
 						</div>
 						<div class="form-group">
-							<label for="inputPrix">Prix : </label> <input type="number"
+							<label for="inputPrix">Prix : </label> <input type="number" step="0.01"
 								class="form-control" id="inputPrix" placeholder="Prix"
 								name="prixBijoux">
 						</div>

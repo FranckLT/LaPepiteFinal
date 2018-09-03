@@ -30,6 +30,16 @@ public class CategorieServices {
 
 		return categoriesList;
 	}
+	
+	public int getNumberOfCategories() throws Exception {
+		
+		ArrayList<Categorie> categoriesList = new ArrayList<>();
+		
+		categoriesList.addAll(getAllCategories());
+		
+		return categoriesList.size();
+		
+	}
 
 	public Categorie getOneCategory (HashMap<String, String> parametersList) throws Exception {
 

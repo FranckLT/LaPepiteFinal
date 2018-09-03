@@ -23,7 +23,16 @@ html, body {
 	margin: 0;
 	height: 1000px;
 }
+a:hover{
+	color: #C79A46;
+}
 
+.menu-user{
+	box-shadow: 0px 2px 0px 0px #cfcfcf;
+filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=180, Strength=5);
+border-radius: 10px;
+color: #C79A46;
+}
 #shopButton {
 	border-radius: 12px 0 12px 0;
 	background: #DCC760;
@@ -32,6 +41,14 @@ html, body {
 	font: bold 18px Verdana;
 	padding: 6px;
 	margin: auto;
+}
+
+.nomUtilisateur{
+	color: #C79A46;
+}
+
+.prixBijoux{
+	color: #C79A46;
 }
 
 .footer{

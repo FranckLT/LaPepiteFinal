@@ -24,8 +24,11 @@ public class RegisteringServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private UtilisateurServices utilisateurServices;
+	
 	private final String REDIRECT_HOME = "/LaPepite/home";
+	
 	private final String CHEMIN_JSP_REGISTER = "/jsp/register.jsp";
+	
 	private HashMap<String, String> parametersList;
 	private Utilisateur utilisateur;
 
@@ -48,7 +51,7 @@ public class RegisteringServlet extends HttpServlet {
 		parametersList = new HashMap<>();
 		utilisateur = new Utilisateur();
 		
-		// récup parametres
+		// récupération paramétres
 		parametersList.putAll(getParameters(request));
 		
 		// register du user

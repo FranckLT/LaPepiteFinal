@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@include file="link.jsp" %>
+<%@include file="link.jsp"%>
 <title>Mon compte</title>
 </head>
 <body>
@@ -19,42 +19,47 @@
 
 
 
-				<h1>Bienvenue ${sessionScope.utilisateur.prenom_utilisateur}
-					${sessionScope.utilisateur.nom_utilisateur}</h1>
+				<h2 class="col-12 text-center mt-5">Bienvenue <span class="nomUtilisateur">${sessionScope.utilisateur.prenom_utilisateur}
+					${sessionScope.utilisateur.nom_utilisateur}</span></h2>
 
 			</div>
 
 			<div class="row">
 
-				<h2>Panier</h2>
+				<h1>Panier</h1>
 
 			</div>
 
-			<div class="row">
+			<c:choose>
+				<c:when
+					test="${sessionScope.utilisateur.panier.listProduit.size() < 1 }">
 
-				<div class="table-responsive">
-					<table class="table table-striped table-sm">
-						<thead>
-							<tr>
-								<th class="col">Bijoux</th>
-								<th class="col">Prix</th>
-								<th class="col">Quantite</th>
-								<th class="col">Ajouter/Supprimer</th>
+					<h4 class="col-12 text-center">Votre panier est vide <i
+										class="fa fa-shopping-cart"></i></h4>
 
-								<th class="col">Total</th>
-							</tr>
-						</thead>
-						<tbody>
+				</c:when>
+				<c:when
+					test="${ not empty sessionScope.utilisateur.panier.listProduit}">
 
-							<c:choose>
-								<c:when
-									test="${ empty sessionScope.utilisateur.panier.listProduit}">
-									
-							
 
-								</c:when>
-								<c:when
-									test="${ not empty sessionScope.utilisateur.panier.listProduit}">
+					<div class="row">
+
+						<div class="table-responsive">
+							<table class="table table-striped table-sm">
+								<thead>
+									<tr>
+										<th class="col">Bijoux</th>
+										<th class="col">Prix</th>
+										<th class="col">Quantite</th>
+										<th class="col">Ajouter/Supprimer</th>
+
+										<th class="col">Total</th>
+									</tr>
+								</thead>
+								<tbody>
+
+
+
 
 									<c:forEach
 										items="${sessionScope.utilisateur.panier.listProduit}"
@@ -65,54 +70,57 @@
 											<td>${lignePanier.quantite_lignepanier}</td>
 											<td>
 												<div class="row">
-												<form method="post" action="/LaPepite/user">
-													<input type="hidden" name="dropOne"
-														value=${lignePanier.bijoux.id_bijoux }> <input
-														type="submit" value="-" class="col-md-6">
-												</form>
-												<form method="post" action="/LaPepite/user">
-													<input type="hidden" name="addOne"
-														value=${lignePanier.bijoux.id_bijoux }> <input
-														type="submit" value="+" class="col-md-6">
-												</form>
+													<form method="post" action="/LaPepite/user">
+														<input type="hidden" name="dropOne"
+															value=${lignePanier.bijoux.id_bijoux }> <input
+															type="submit" value="-" class="col-md-6">
+													</form>
+													<form method="post" action="/LaPepite/user">
+														<input type="hidden" name="addOne"
+															value=${lignePanier.bijoux.id_bijoux }> <input
+															type="submit" value="+" class="col-md-6">
+													</form>
 												</div>
 											</td>
 
-											<td> <div class="totalLigne">${lignePanier.quantite_lignepanier * lignePanier.bijoux.prix_bijoux}€</div></td>
+											<td>
+												<div class="totalLigne">${lignePanier.quantite_lignepanier * lignePanier.bijoux.prix_bijoux}€</div>
+											</td>
 
 
 										</tr>
 									</c:forEach>
+								</tbody>
+							</table>
 
-								</c:when>
+							<div class="row">
 
-							</c:choose>
+								<div class="col-sm-10"></div>
+								<div class="col-sm-2">
 
-						</tbody>
-					</table>
-					
-					<div class="row">
-						
-						<div class="col-sm-10"></div>
-						<div class="col-sm-2">
-						
-						<a href="${pageContext.servletContext.contextPath}/user/order" class="btn btn-primary">Commander</a>
-						
+									<a href="${pageContext.servletContext.contextPath}/user/order"
+										class="btn btn-primary">Commander</a>
+
+								</div>
+
+
+							</div>
+
 						</div>
-						
-					
 					</div>
-					
-				</div>
-			</div>
+				</c:when>
+
+			</c:choose>
+
+
 
 
 		</div>
 
 	</div>
 
-		<%@ include file="footer/footer.jsp" %>
-	
+	<%@ include file="footer/footer.jsp"%>
+
 
 </body>
 </html>

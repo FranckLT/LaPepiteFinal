@@ -17,13 +17,17 @@
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.LoginServlet</servlet-class>
   </servlet>
-    <servlet>
-    <servlet-name>AdminCommandesServlet</servlet-name>
-    <servlet-class>fr.lapepite.controller.AdminCommandesServlet</servlet-class>
+  <servlet>
+    <servlet-name>AdminIndexCommandesServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.AdminIndexCommandesServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>CommentaireServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.CommentaireServlet</servlet-class>
+  </servlet>
+   <servlet>
+    <servlet-name>AdminCommandeServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.AdminCommandeServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>RegisteringServlet</servlet-name>
@@ -146,8 +150,8 @@
     <servlet-name>AdminIndexServlet</servlet-name>
     <url-pattern>/admin</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
-    <servlet-name>AdminCommandesServlet</servlet-name>
+  <servlet-mapping>
+    <servlet-name>AdminIndexCommandesServlet</servlet-name>
     <url-pattern>/admin/commandes</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
@@ -173,6 +177,10 @@
   <servlet-mapping>
     <servlet-name>AdminEditCategoryServlet</servlet-name>
     <url-pattern>/admin/categories/edit</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminCommandeServlet</servlet-name>
+    <url-pattern>/admin/commandes/commande</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AdminAddDesignerServlet</servlet-name>

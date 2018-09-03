@@ -51,7 +51,7 @@
 							<div class="col-lg-12">
 
 								<form id="register-form" action="/LaPepite/register"
-									method="post" role="form" style="display: block;">
+									method="post" style="display: block;">
 
 									<div class="form-group">
 										<input type="text" name="nom" id="username" tabindex="1"

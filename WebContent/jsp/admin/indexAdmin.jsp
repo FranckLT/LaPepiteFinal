@@ -24,11 +24,11 @@
 				<div class="card p-30">
 					<div class="media">
 						<div class="media-left meida media-middle">
-							<span><i class="fa fa-usd f-s-40 color-primary"></i></span>
+							<span class="col-12"><i class="fas fa-chess-queen f-s-40 color-primary"></i></span>
 						</div>
 						<div class="media-body media-text-right">
-							<h2>568120</h2>
-							<p class="m-b-0">Total Bijoux</p>
+							<h2>${bijouxNumber}</h2>
+							<p class="m-b-0">Nb Bijoux</p>
 						</div>
 					</div>
 				</div>
@@ -37,11 +37,11 @@
 				<div class="card p-30">
 					<div class="media">
 						<div class="media-left meida media-middle">
-							<span><i class="fa fa-shopping-cart f-s-40 color-success"></i></span>
+							<span class="col-12"><i class="fas fa-user-ninja f-s-40 color-success"></i></span>
 						</div>
 						<div class="media-body media-text-right">
-							<h2>1178</h2>
-							<p class="m-b-0">Total Designer</p>
+							<h2>${designersNumber}</h2>
+							<p class="m-b-0">Nb Designer</p>
 						</div>
 					</div>
 				</div>
@@ -50,11 +50,11 @@
 				<div class="card p-30">
 					<div class="media">
 						<div class="media-left meida media-middle">
-							<span><i class="fa fa-archive f-s-40 color-warning"></i></span>
+							<span class="col-12"><i class="fa fa-archive f-s-40 color-warning"></i></span>
 						</div>
 						<div class="media-body media-text-right">
-							<h2>25</h2>
-							<p class="m-b-0">Total Categorie</p>
+							<h2>${categoriesNumber}</h2>
+							<p class="m-b-0">Nb Categorie</p>
 						</div>
 					</div>
 				</div>
@@ -63,10 +63,10 @@
 				<div class="card p-30">
 					<div class="media">
 						<div class="media-left meida media-middle">
-							<span><i class="fa fa-user f-s-40 color-danger"></i></span>
+							<span class="col-12"><i class="fas fa-file-invoice-dollar f-s-40 color-danger"></i></span>
 						</div>
 						<div class="media-body media-text-right">
-							<h2>847</h2>
+							<h2>${commandesNumber}</h2>
 							<p class="m-b-0">Nb commande</p>
 						</div>
 					</div>

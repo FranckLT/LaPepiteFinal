@@ -69,6 +69,18 @@ public class CommandeServices {
 
 	}
 	
+	public Commande getOneCommande(HashMap<String, String> parametersList) throws Exception {
+		
+		Commande commande;
+		
+		int idCommande = Integer.parseInt(parametersList.get("id"));
+		
+		commande = DBCommandeUtils.selectCommandeById(idCommande);
+		
+		return commande;
+		
+	}
+	
 	public List<Commande> getAllCommandes() throws Exception {
 		
 		ArrayList<Commande> commandesList = new ArrayList<>();
@@ -76,6 +88,16 @@ public class CommandeServices {
 		commandesList.addAll(DBCommandeUtils.selectAllCommandes());
 		
 		return commandesList;
+		
+	}
+	
+	public int getNumberOfCommandes() throws Exception {
+		
+		ArrayList<Commande> commandesList = new ArrayList<>();
+		
+		commandesList.addAll(getAllCommandes());
+		
+		return commandesList.size();
 		
 	}
 
