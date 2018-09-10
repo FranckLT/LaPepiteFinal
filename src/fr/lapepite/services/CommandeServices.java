@@ -28,7 +28,7 @@ public class CommandeServices {
 
 			List<LignePanier> listLignePanier = panier.getListProduit();
 
-			// on trnsforme les ligne_panier en lignes commandes
+			// on transforme les ligne_panier en lignes commandes
 			for (LignePanier lignePanier : listLignePanier) {
 				ligneCommande = ligneCommandeServices.createLigneCommande(lignePanier);
 				listLigne_commande.add(ligneCommande);
@@ -49,18 +49,18 @@ public class CommandeServices {
 
 			// récupération de la commande pour récup son id
 			commande = DBCommandeUtils.selectLastCommande(utilisateur);
-
+			
 			commande.setListLigne_commande(listLigne_commande);
 
 			// on enregistre toutes les ligne de commandes 
 			ligneCommandeServices.insertLigneCommande(commande);
-
+			
 			panier.emptyPanier();
 
 			panier.updateTotal_panier();
 
 			return utilisateur;
-			
+
 		} catch (Exception e) {
 
 			throw new Exception(e.getMessage());
@@ -68,37 +68,49 @@ public class CommandeServices {
 		}
 
 	}
-	
+
 	public Commande getOneCommande(HashMap<String, String> parametersList) throws Exception {
-		
+
 		Commande commande;
-		
+
 		int idCommande = Integer.parseInt(parametersList.get("id"));
-		
+
 		commande = DBCommandeUtils.selectCommandeById(idCommande);
-		
+
 		return commande;
-		
+
 	}
-	
+
 	public List<Commande> getAllCommandes() throws Exception {
-		
+
 		ArrayList<Commande> commandesList = new ArrayList<>();
-		
+
 		commandesList.addAll(DBCommandeUtils.selectAllCommandes());
-		
+
 		return commandesList;
-		
+
 	}
-	
-	public int getNumberOfCommandes() throws Exception {
-		
+
+	public List<Commande> getAllCommandesForOneUtilisateur(Utilisateur utilisateur) throws Exception {
+
 		ArrayList<Commande> commandesList = new ArrayList<>();
 		
+		int idUtilisateur = utilisateur.getId_utilisateur();
+
+		commandesList.addAll(DBCommandeUtils.selectCommandeByUtilisateur(idUtilisateur));
+
+		return commandesList;
+
+	}
+
+	public int getNumberOfCommandes() throws Exception {
+
+		ArrayList<Commande> commandesList = new ArrayList<>();
+
 		commandesList.addAll(getAllCommandes());
-		
+
 		return commandesList.size();
-		
+
 	}
 
 }

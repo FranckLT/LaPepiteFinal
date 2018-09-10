@@ -2,6 +2,7 @@ package fr.lapepite.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -10,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.lapepite.javabean.Categorie;
-import fr.lapepite.method.Method;
 import fr.lapepite.services.CategorieServices;
 
 
@@ -52,7 +52,7 @@ public class AdminIndexCategoriesServlet extends HttpServlet {
 
 		try {
 
-			parametersList.putAll(Method.getParameters(request));
+			parametersList.putAll(getParameters(request));
 
 			categorieServices.deleteOneCategory(parametersList);
 			
@@ -69,6 +69,25 @@ public class AdminIndexCategoriesServlet extends HttpServlet {
 	private void redirectToView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		getServletContext().getRequestDispatcher(CHEMIN_JSP_ADMIN_CATEGORIES).forward(request, response);
+
+}
+	private HashMap<String, String> getParameters (HttpServletRequest request) {
+
+		Enumeration<String> listParameters = request.getParameterNames();
+
+		HashMap<String, String> parametersMap = new HashMap<>();
+
+		while (listParameters.hasMoreElements()) {
+
+			String parameterName = listParameters.nextElement();
+
+			String string = (String) request.getParameter(parameterName);
+
+			parametersMap.put(parameterName, string);
+
+		}
+
+		return parametersMap;
 
 	}
 

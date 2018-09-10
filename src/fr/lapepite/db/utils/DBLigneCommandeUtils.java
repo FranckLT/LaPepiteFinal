@@ -16,7 +16,7 @@ import fr.lapepite.javabean.LigneCommande;
 public class DBLigneCommandeUtils {
 	
 	private static final String QUERY_INSERT_LIGNE_COMMANDE = "INSERT INTO ligne_commande VALUES (?,?,?)";
-	private static final String QUERY_SELECT_ALL_LIGNE_FOR_ONE_COMMANDE = "SELECT * FROM ligne_commande INNER JOIN Bijoux ON Bijoux.id_bijoux = ligne_commande.id_bijoux WHERE id_commande = ?";
+	private static final String QUERY_SELECT_ALL_LIGNE_FOR_ONE_COMMANDE = "SELECT * FROM ligne_commande INNER JOIN Bijoux ON Bijoux.id_bijoux = ligne_commande.id_bijoux WHERE ligne_commande.id_commande = ?";
 
 	public static void insertLigneCommande(Commande commande, LigneCommande ligneCommande) throws Exception {
 
@@ -34,8 +34,6 @@ public class DBLigneCommandeUtils {
 			stmtCommande.setDouble(3, ligneCommande.getQuantite_lignecommande());
 			
 			stmtCommande.executeUpdate();
-			
-			
 
 		} catch(Exception e){
 			

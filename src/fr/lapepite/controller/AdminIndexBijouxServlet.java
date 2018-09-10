@@ -6,10 +6,10 @@
 package fr.lapepite.controller;
 
 import fr.lapepite.javabean.Bijoux;
-import fr.lapepite.method.Method;
 import fr.lapepite.services.BijouxServices;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -62,7 +62,7 @@ public class AdminIndexBijouxServlet extends HttpServlet {
 
 		try {
 			
-		parametersList.putAll(Method.getParameters(request));
+		parametersList.putAll(getParameters(request));
 	
 		bijouxServices.deleteBijoux(parametersList);
 		
@@ -74,6 +74,26 @@ public class AdminIndexBijouxServlet extends HttpServlet {
 		}
 
 		
+
+	}
+	
+	private HashMap<String, String> getParameters (HttpServletRequest request) {
+
+		Enumeration<String> listParameters = request.getParameterNames();
+
+		HashMap<String, String> parametersMap = new HashMap<>();
+
+		while (listParameters.hasMoreElements()) {
+
+			String parameterName = listParameters.nextElement();
+
+			String string = (String) request.getParameter(parameterName);
+
+			parametersMap.put(parameterName, string);
+
+		}
+
+		return parametersMap;
 
 	}
 

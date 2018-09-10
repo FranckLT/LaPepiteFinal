@@ -15,41 +15,55 @@
 	
 	<div class="container mt-4">
 
-		<a href="/LaPepite/admin/designers/add" class="m-5 btn btn-success">Ajouter
+		<a href="/LaPepite/admin/designers/add" class="mb-3 btn btn-success">Ajouter
 			un designer</a>
 
-		<h2>Liste des designers existants</h2>
+		<h2 class="text-center">Liste des designers</h2>
+		
+		<div class="row flex-column border border-dark shadow-lg rounded">
+			<div class="col-auto border border-dark m-2 shadow-sm rounded">
+				<div class="row m-0 flex-row p-4 shadow-sm rounded">
 
-		</br>
+					<div class="col-1 text-primary text-center">N°</div>
+					<div class="col-2 text-primary text-center">Nom</div>
+					<div class="col-5 text-primary text-center">Description</div>
+					<div class="col-4 text-primary text-center">Actions</div>
 
-		<div class="table-responsive">
-			<table class="table table-striped table-sm">
-				<thead>
-					<tr>
-						<th >Id</th>
-						<th >Nom</th>
-						<th class="col-md-2">Description</th>
-						<th >Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${designersList}" var="designer" varStatus="status">
-						<tr>
-							<th>${designer.id_designer}
-							</th>
-							<td>${designer.nom_designer}</td>
-							<td>${designer.description_designer}</td>
-							<td class="col-md-4"><input type="button"
-								class="btn btn-danger btn-send" value="Supprimer"
+				</div>
+
+				<c:forEach items="${designersList}" var="designer"
+					varStatus="status">
+
+
+						<div class="row m-0 mt-1 flex-row text-dark">
+
+							<div class="col-12">
+								<div class="row">
+									<div class="col-1 text-center">${designer.id_designer}</div>
+									<div class="col-2 text-center">${designer.nom_designer}</div>
+									<div class="col-5 text-center">${designer.description_designer}</div>
+									
+									<div class="col-4">
+										<div class="row">
+										<input type="button"
+								class="btn btn-danger btn-send col-6" value="Supprimer"
 								onClick="onDeleteDesigner('${designer.nom_designer}','${designer.id_designer}')">
-								<a href="/LaPepite/admin/designers/edit?id=${designer.id_designer}"
-								class="btn btn-primary btn-send">Modifier</a></td>
+										<a href="/LaPepite/admin/categories/edit?id=${designer.id_designer}"
+								class="btn btn-primary btn-send col-6">Modifier</a>
+										</div>	
+									</div>
 
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+
+								</div>
+							</div>
+						</div>
+
+						<hr>
+  				</c:forEach>
+			</div>
 		</div>
+		
+		
 	</div>
 	
 	<%@ include file="../footer/footer.jsp" %>

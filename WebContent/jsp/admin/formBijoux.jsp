@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@include file="../link.jsp" %>
+<%@include file="../link.jsp"%>
 <title>Add / Edit Bijoux</title>
 </head>
 <body>
@@ -13,14 +13,16 @@
 
 
 	<div class="container">
-	
-	<c:if test="${not empty errorMessage }">
 
-		<div class="ht-tm-element alert alert-danger col-lg-6 col-md-12 offset-lg-3" role="alert">
-			<h4 class="alert-heading text-center">Erreur</h4>
-			<p class="text-center">${errorMessage }</p>
-		</div>
-	</c:if>
+		<c:if test="${not empty errorMessage }">
+
+			<div
+				class="ht-tm-element alert alert-danger col-lg-6 col-md-12 offset-lg-3"
+				role="alert">
+				<h4 class="alert-heading text-center">Erreur</h4>
+				<p class="text-center">${errorMessage }</p>
+			</div>
+		</c:if>
 
 		<div class="card p-4 mt-4">
 
@@ -51,9 +53,9 @@
 								value="${bijoux.prix_bijoux}">
 						</div>
 						<div class="form-group">
-							<label for="inputDescription">Description</label> <input type="text"
-								class="form-control" id="inputDescription" name="descriptionBijoux"
-								value="${bijoux.description_bijoux}">
+							<label for="inputDescription">Description</label> <input
+								type="text" class="form-control" id="inputDescription"
+								name="descriptionBijoux" value="${bijoux.description_bijoux}">
 						</div>
 						<div class="form-group">
 							<label for="inputStock">Quantité en stock : </label> <input
@@ -69,7 +71,8 @@
 											test="${designer.id_designer == bijoux.designer.id_designer }">
 											<option value="${designer.id_designer}" selected="true">${designer.nom_designer}</option>
 										</c:when>
-										<c:when test="${designer.id_designer != bijoux.designer.id_designer }">
+										<c:when
+											test="${designer.id_designer != bijoux.designer.id_designer }">
 											<option value="${designer.id_designer}">${designer.nom_designer}</option>
 										</c:when>
 									</c:choose>
@@ -93,28 +96,14 @@
 								</c:forEach>
 							</select>
 						</div>
-
-						<!--  <fieldset>
-							<legend>Chargement de l'image (Ne pas utiliser)</legend>
-							<div class="form-group">
-								<label for="description">Description du fichier : </label> <input
-									type="text" id="description" name="description" value="" class="form-control"/>
-							</div>
-							<div class="form-group">
-								<label for="fichier">Emplacement du fichier : </label> <input class="btn btn-outline-primary" type="file" id="fichier"
-									name="fichier" />
-							</div>
-
-					
-							<br />
-						</fieldset>-->
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</form>
 
 				</c:when>
 				<c:when test="${empty bijoux }">
 
-					<form action="/LaPepite/admin/bijoux/add" method="post">
+					<form action="/LaPepite/admin/bijoux/add" method="post"
+						enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="inputNom">Nom : </label> <input type="text"
 								class="form-control" id="inputNom" placeholder="Nom"
@@ -126,14 +115,14 @@
 								name="refBijoux">
 						</div>
 						<div class="form-group">
-							<label for="inputPrix">Prix : </label> <input type="number" step="0.01"
-								class="form-control" id="inputPrix" placeholder="Prix"
-								name="prixBijoux">
+							<label for="inputPrix">Prix : </label> <input type="number"
+								step="0.01" class="form-control" id="inputPrix"
+								placeholder="Prix" name="prixBijoux">
 						</div>
 						<div class="form-group">
-							<label for="inputDescription">Description</label> <input type="text"
-								class="form-control" id="inputDescription" placeholder="Description"
-								name="descriptionBijoux">
+							<label for="inputDescription">Description</label> <input
+								type="text" class="form-control" id="inputDescription"
+								placeholder="Description" name="descriptionBijoux">
 						</div>
 						<div class="form-group">
 							<label for="inputStock">Quantité en stock : </label> <input
@@ -157,19 +146,13 @@
 							</select>
 						</div>
 
-						<!-- 	<fieldset>
-							<legend>Envoi de fichier</legend>
-
-							<label for="description">Description du fichier</label> <input
-								type="text" id="description" name="description" value="" /> <br />
-
-							<label for="fichier">Emplacement du fichier <span
-								class="requis">*</span></label> <input type="file" id="fichier"
-								name="fichier" /> <br />
-
-							
-							<br />
-						</fieldset>-->
+						<div class="custom-file">
+							<input type="file" name="fichier" class="custom-file-input" id="customFile">
+							<label class="custom-file-label" for="customFile">Choose
+								file</label>
+						</div>
+						
+						<hr>
 
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</form>
@@ -181,7 +164,7 @@
 		</div>
 	</div>
 
-	<%@ include file="../footer/footer.jsp" %>
+	<%@ include file="../footer/footer.jsp"%>
 
 </body>
 </html>

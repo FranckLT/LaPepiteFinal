@@ -92,8 +92,6 @@ public class DesignerServlet extends HttpServlet {
 
 			String string = (String) request.getParameter(parameterName);
 
-			System.out.println(parameterName);
-
 			parametersMap.put(parameterName, string);
 
 		}

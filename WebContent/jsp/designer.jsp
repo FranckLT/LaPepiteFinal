@@ -36,13 +36,13 @@
 
 		<div class="row">
 
-			<div class="col-lg-8 offset-2 mt-4">
+			<div class="col-lg-8 offset-lg-2 mt-4">
 
 				<div class="row">
 
 					<c:forEach items="${ bijouxList }" var="bijoux">
 
-						<div class="card h-10 col-lg-4 col-md-12 jewelDiv">
+						<div class="card h-10 col-lg-4 col-md-11 m-auto jewelDiv">
 
 							<a href="/LaPepite/shop/product?id=${bijoux.id_bijoux}"><img
 								class="card-img-top"

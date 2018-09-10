@@ -46,7 +46,6 @@ public class CategorieServices {
 		Categorie categorie = new Categorie();
 
 		try {
-			System.out.println("salut");
 			categorie = DBCategorieUtils.selectOneCategoryById(Integer.parseInt(parametersList.get("id")));
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());

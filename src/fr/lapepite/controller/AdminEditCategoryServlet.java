@@ -88,8 +88,6 @@ public class AdminEditCategoryServlet extends HttpServlet {
 
 			String parameterName = listParameters.nextElement();
 			
-			System.out.println(parameterName);
-
 			String string = (String) request.getParameter(parameterName);
 
 			parametersMap.put(parameterName, string);

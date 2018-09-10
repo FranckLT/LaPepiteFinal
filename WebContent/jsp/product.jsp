@@ -33,25 +33,44 @@
 
 				<div class="card mt-4">
 					<img class="card-img-top img-fluid"
-						src="/LaPepite/image/bijoux/${bijoux.image_bijoux}"
-						alt="image de bijoux">
+						src="../image/bijoux/${bijoux.image_bijoux}" alt="image de bijoux">
 					<div class="card-body">
 						<h3 class="card-title">${bijoux.nom_bijoux}</h3>
-						<h4 class="prixBijoux pl-3">${bijoux.prix_bijoux} €</h4>
+						<h4 class="prixBijoux pl-3">${bijoux.prix_bijoux}€</h4>
 						<p class="card-text">${bijoux.description_bijoux}</p>
-						<div class="row justify-content-between">
-							<form id="product-form"
-								action="/LaPepite/shop/product?id=${bijoux.id_bijoux}"
-								method="post" role="form" style="display: block;" class="mr-5">
-								<select name="numberOfProduct" size="1" class="mx-3">
-									<option selected="true">1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-								</select> <input type="submit" class="btn btn-primary" value="Commander">
-							</form>
-						</div>
 
+						<c:choose>
+							<c:when test="${sessionScope.utilisateur.admin == false }">
+								<div class="row justify-content-between">
+									<form id="product-form"
+										action="/LaPepite/shop/product?id=${bijoux.id_bijoux}"
+										method="post" role="form" style="display: block;" class="mr-5">
+										<select name="numberOfProduct" size="1" class="mx-3">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+										</select> <input type="submit" class="btn btn-primary"
+											value="Commander">
+									</form>
+								</div>
+							</c:when>
+							<c:when test="${empty sessionScope.utilisateur}">
+								<div class="row justify-content-between">
+									<form id="product-form"
+										action="/LaPepite/shop/product?id=${bijoux.id_bijoux}"
+										method="post" role="form" style="display: block;" class="mr-5">
+										<select name="numberOfProduct" size="1" class="mx-3">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+										</select> <input type="submit" class="btn btn-primary"
+											value="Commander">
+									</form>
+								</div>
+							</c:when>
+						</c:choose>
 
 					</div>
 				</div>
@@ -65,21 +84,37 @@
 
 						<c:forEach items="${ commentairesList }" var="commentaire">
 							<p>${commentaire.texte_commentaire }</p>
-							<small class="text-muted">Ecrit par 
-								${commentaire.utilisateur.nom_utilisateur } ${commentaire.utilisateur.prenom_utilisateur} le
+							<small class="text-muted">Ecrit par
+								${commentaire.utilisateur.nom_utilisateur }
+								${commentaire.utilisateur.prenom_utilisateur} le
 								${commentaire.date_commentaire }</small>
 							<hr>
 						</c:forEach>
 
+						<c:choose>
+							<c:when test="${sessionScope.utilisateur.admin == false }">
+								<h4 class="text-center">Donnez votre avis !</h4>
+								<form method="post" action="/LaPepite/user/commentaire">
 
-						<h4 class="text-center">Donnez votre avis !</h4>
-						<form method="post" action="/LaPepite/commentaire">
+									<input type="text" name="commentaire" class="form-control">
+									<input type="hidden" value="${bijoux.id_bijoux }"
+										name="idBijoux"> <input type="submit"
+										class="form-control btn btn-primary mt-1" value="Envoyer">
 
-							<input type="text" name="commentaire" class="form-control">
-							<input type="hidden" value="${bijoux.id_bijoux }" name="idBijoux"> <input
-								type="submit" class="form-control btn btn-primary mt-1" value="Envoyer">
+								</form>
+							</c:when>
+							<c:when test="${empty sessionScope.utilisateur}">
+								<h4 class="text-center">Donnez votre avis !</h4>
+								<form method="post" action="/LaPepite/user/commentaire">
 
-						</form>
+									<input type="text" name="commentaire" class="form-control">
+									<input type="hidden" value="${bijoux.id_bijoux }"
+										name="idBijoux"> <input type="submit"
+										class="form-control btn btn-primary mt-1" value="Envoyer">
+
+								</form>
+							</c:when>
+						</c:choose>
 					</div>
 				</div>
 				<!-- /.card -->
@@ -89,9 +124,9 @@
 		</c:if>
 
 	</div>
-	
-			<%@ include file="footer/footer.jsp" %>
-	
+
+	<%@ include file="footer/footer.jsp"%>
+
 
 </body>
 </html>

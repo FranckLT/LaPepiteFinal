@@ -1,6 +1,7 @@
 package fr.lapepite.controller;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -9,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.lapepite.javabean.Utilisateur;
-import fr.lapepite.method.Method;
 import fr.lapepite.services.CommandeServices;
 import fr.lapepite.services.UtilisateurServices;
 
@@ -61,9 +61,12 @@ public class OrderServlet extends HttpServlet {
 		try {
 			utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
 
-			parametersList.putAll(Method.getParameters(request));
+			parametersList.putAll(getParameters(request));
 
 			utilisateur = commandeServices.createCommande(utilisateur, parametersList);
+			
+			response.sendRedirect(URL_USER);
+			
 		} catch (Exception e) {
 			
 			request.setAttribute("errorMessage", e.getMessage());
@@ -72,13 +75,33 @@ public class OrderServlet extends HttpServlet {
 			
 		}
 
-		response.sendRedirect(URL_USER);
+		
 
 	}
 
 	public void redirectToView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		getServletContext().getRequestDispatcher(CHEMIN_JSP_ORDER).forward(request, response);
+
+	}
+	
+	private HashMap<String, String> getParameters (HttpServletRequest request) {
+
+		Enumeration<String> listParameters = request.getParameterNames();
+
+		HashMap<String, String> parametersMap = new HashMap<>();
+
+		while (listParameters.hasMoreElements()) {
+
+			String parameterName = listParameters.nextElement();
+
+			String string = (String) request.getParameter(parameterName);
+
+			parametersMap.put(parameterName, string);
+
+		}
+
+		return parametersMap;
 
 	}
 

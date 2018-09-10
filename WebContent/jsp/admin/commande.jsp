@@ -15,7 +15,9 @@
 
 	<div class="row flex-column border border-dark shadow-lg rounded">
 
-		<h1 class="col-md-12 m-2 mb-5">Votre commande</h1>
+		<h1 class="col-md-12 m-2 mb-4">Commande n° ${commande.id_commande}</h1>
+		<h4 class="col-12 m-2 mb-3"> Date : ${commande.date_commande}</h4>
+		<h5 class="col-12 m-2">Client : ${commande.utilisateur.nom_utilisateur } ${commande.utilisateur.prenom_utilisateur }</h5>
 
 		<div class="border border-dark m-2 shadow-sm rounded">
 
@@ -58,7 +60,7 @@
 
 
 		<div
-			class="col-lg-2 offset-lg-8 col-md-11 offset-md-1 m-md-auto shadow-lg rounded border border-dark ">
+			class=" offset-lg-8 col-auto shadow-lg rounded border border-dark ">
 
 			<div class="row mt-2">
 				<div class="col-6 text-center">

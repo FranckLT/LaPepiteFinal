@@ -13,7 +13,7 @@
 
 	<div class="container mt-4">
 
-		<h2>Liste des commandes</h2>
+		<h2 class="text-center">Liste des commandes</h2>
 
 		<div class="row flex-column border border-dark shadow-lg rounded">
 			<div class="col-auto border border-dark m-2 shadow-sm rounded">

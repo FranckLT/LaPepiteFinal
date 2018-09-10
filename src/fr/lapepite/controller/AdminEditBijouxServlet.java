@@ -26,17 +26,19 @@ public class AdminEditBijouxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String VUE_DO_GET = "/jsp/admin/formBijoux.jsp";
 	public static final String REDIRECT_DO_POST = "/LaPepite/admin/bijoux";
-	BijouxServices bijouxServices;
-	CategorieServices categorieServices;
-	DesignerServices designerServices;
-	HashMap<String, String> parametersList;
-	ArrayList<Designer> listDesigners;
-	ArrayList<Categorie> listCategories;
+	private BijouxServices bijouxServices;
+	private CategorieServices categorieServices;
+	private DesignerServices designerServices;
+	private HashMap<String, String> parametersList;
+	private ArrayList<Designer> listDesigners;
+	private ArrayList<Categorie> listCategories;
+	private Bijoux bijoux;
 
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		bijouxServices = new BijouxServices();
@@ -45,22 +47,24 @@ public class AdminEditBijouxServlet extends HttpServlet {
 		parametersList = new HashMap<>();
 		listDesigners = new ArrayList<>();
 		listCategories = new ArrayList<>();
+		bijoux = null;
 		
 		try {
+			
 			parametersList.putAll(getParameters(request));
-
 			listCategories.addAll(categorieServices.getAllCategories());
-
 			listDesigners.addAll(designerServices.getAllDesigners());
+			bijoux = bijouxServices.getOneBijoux(parametersList);
 
 			request.setAttribute("listDesigners", listDesigners);
 			request.setAttribute("listCategories", listCategories);
-
-			Bijoux bijoux = new Bijoux();
-
-			bijoux = bijouxServices.getOneBijoux(parametersList);
-
-			request.setAttribute("bijoux", bijoux);
+			
+			if (bijoux == null) {
+				request.setAttribute("errorMessage", "Aucun Bijoux correspondant");
+			} else {
+				request.setAttribute("bijoux", bijoux);
+			}
+			
 
 		} catch (Exception e) {
 
@@ -75,8 +79,6 @@ public class AdminEditBijouxServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {	
-			
-			parametersList = new HashMap<>();
 
 			parametersList.putAll(getParameters(request));
 
@@ -86,8 +88,11 @@ public class AdminEditBijouxServlet extends HttpServlet {
 
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			request.setAttribute("errorMessage", e.getMessage());
+			
+			getServletContext().getRequestDispatcher(VUE_DO_GET).forward(request, response);
+			
 		}
 	}
 
@@ -100,8 +105,6 @@ public class AdminEditBijouxServlet extends HttpServlet {
 		while (listParameters.hasMoreElements()) {
 
 			String parameterName = listParameters.nextElement();
-
-			System.out.println(parameterName);
 			
 			String string = (String) request.getParameter(parameterName);
 

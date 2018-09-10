@@ -91,7 +91,7 @@ public class DBCommentairesUtils {
 	}
 
 
-	public static Commentaire rsetToCommentaire(ResultSet rSet) throws SQLException {
+	public static Commentaire rsetToCommentaire(ResultSet rSet) throws Exception {
 		
 		Utilisateur utilisateur = new Utilisateur();
 		Commentaire commentaire = new Commentaire();

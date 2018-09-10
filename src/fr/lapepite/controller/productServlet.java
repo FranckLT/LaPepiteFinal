@@ -8,7 +8,6 @@ package fr.lapepite.controller;
 import fr.lapepite.javabean.Bijoux;
 import fr.lapepite.javabean.Commentaire;
 import fr.lapepite.javabean.Utilisateur;
-import fr.lapepite.method.Method;
 import fr.lapepite.services.BijouxServices;
 import fr.lapepite.services.CommentaireServices;
 import fr.lapepite.services.PanierServices;
@@ -22,11 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
-public class productServlet extends HttpServlet {
+public class ProductServlet extends HttpServlet {
 	
 	/**
 	 * 
@@ -47,8 +42,7 @@ public class productServlet extends HttpServlet {
 		commentairesList = new ArrayList<>();
 		commentairesService = new CommentaireServices();
 		
-		parametersList.putAll(Method.getParameters(request));
-		
+		parametersList.putAll(getParameters(request));
 
 		bijoux = null;
 
@@ -100,17 +94,17 @@ public class productServlet extends HttpServlet {
 
 			try {
 				utilisateur = new PanierServices().addBijouxToPanier(parametersList, utilisateur);
+				
+				request.getSession().setAttribute("utilisateur", utilisateur);
+
+				int idProduct = Integer.parseInt(parametersList.get("id"));
+
+				response.sendRedirect("/LaPepite/shop/product?id="+idProduct);
+				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				request.setAttribute("errorMessage", e.getMessage());
+				getServletContext().getRequestDispatcher("/jsp/product.jsp").forward(request, response);
 			}
-			
-			request.getSession().setAttribute("utilisateur", utilisateur);
-
-			int idProduct = Integer.parseInt(parametersList.get("id"));
-
-			response.sendRedirect("/LaPepite/shop/product?id="+idProduct);
-
 		}
 
 	}

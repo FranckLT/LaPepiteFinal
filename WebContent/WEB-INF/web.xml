@@ -5,9 +5,13 @@
     <filter-name>AdminFilter</filter-name>
     <filter-class>fr.lapepite.filter.AdminFilter</filter-class>
   </filter>
+  <filter>
+    <filter-name>UserFilter</filter-name>
+    <filter-class>fr.lapepite.filter.UserFilter</filter-class>
+  </filter>
   <servlet>
-    <servlet-name>homeServlet</servlet-name>
-    <servlet-class>fr.lapepite.controller.homeServlet</servlet-class>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.HomeServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>ShopIndexServlet</servlet-name>
@@ -17,6 +21,10 @@
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.LoginServlet</servlet-class>
   </servlet>
+    <servlet>
+    <servlet-name>ContactServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.ContactServlet</servlet-class>
+  </servlet>
   <servlet>
     <servlet-name>AdminIndexCommandesServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.AdminIndexCommandesServlet</servlet-class>
@@ -25,7 +33,7 @@
     <servlet-name>CommentaireServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.CommentaireServlet</servlet-class>
   </servlet>
-   <servlet>
+  <servlet>
     <servlet-name>AdminCommandeServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.AdminCommandeServlet</servlet-class>
   </servlet>
@@ -34,8 +42,8 @@
     <servlet-class>fr.lapepite.controller.RegisteringServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>productServlet</servlet-name>
-    <servlet-class>fr.lapepite.controller.productServlet</servlet-class>
+    <servlet-name>ProductServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.ProductServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>DesignersIndexServlet</servlet-name>
@@ -50,8 +58,24 @@
     <servlet-class>fr.lapepite.controller.panierServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.LogoutServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>UserServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.UserServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserCommandesIndexServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.UserCommandesIndexServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserCommandeServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.UserCommandeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserEditServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.UserEditServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>OrderServlet</servlet-name>
@@ -72,6 +96,12 @@
   <servlet>
     <servlet-name>AdminAddBijouxServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.AdminAddBijouxServlet</servlet-class>
+    <multipart-config>
+      <location>temp/</location>
+      <max-file-size>10485760</max-file-size>
+      <max-request-size>52428800</max-request-size>
+      <file-size-threshold>1048576</file-size-threshold>
+    </multipart-config>
   </servlet>
   <servlet>
     <servlet-name>AdminIndexCategoriesServlet</servlet-name>
@@ -97,13 +127,22 @@
     <servlet-name>AdminIndexDesignersServlet</servlet-name>
     <servlet-class>fr.lapepite.controller.AdminIndexDesignersServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AdminIndexUsersServlet</servlet-name>
+    <servlet-class>fr.lapepite.controller.AdminIndexUsersServlet</servlet-class>
+  </servlet>
   <filter-mapping>
     <filter-name>AdminFilter</filter-name>
     <url-pattern>/admin</url-pattern>
     <url-pattern>/admin/*</url-pattern>
   </filter-mapping>
+  <filter-mapping>
+    <filter-name>UserFilter</filter-name>
+    <url-pattern>/user</url-pattern>
+    <url-pattern>/user/*</url-pattern>
+  </filter-mapping>
   <servlet-mapping>
-    <servlet-name>homeServlet</servlet-name>
+    <servlet-name>HomeServlet</servlet-name>
     <url-pattern>/home</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
@@ -119,7 +158,11 @@
     <url-pattern>/register</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>productServlet</servlet-name>
+    <servlet-name>UserEditServlet</servlet-name>
+    <url-pattern>/user/edit</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProductServlet</servlet-name>
     <url-pattern>/shop/product</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
@@ -130,17 +173,29 @@
     <servlet-name>DesignerServlet</servlet-name>
     <url-pattern>/designers/designer</url-pattern>
   </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>ContactServlet</servlet-name>
+    <url-pattern>/contact</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>panierServlet</servlet-name>
-    <url-pattern>/panier</url-pattern>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/user/logout</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>UserServlet</servlet-name>
     <url-pattern>/user</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>UserCommandesIndexServlet</servlet-name>
+    <url-pattern>/user/commandes</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserCommandeServlet</servlet-name>
+    <url-pattern>/user/commandes/commande</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>CommentaireServlet</servlet-name>
-    <url-pattern>/commentaire</url-pattern>
+    <url-pattern>/user/commentaire</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>OrderServlet</servlet-name>
@@ -193,6 +248,10 @@
   <servlet-mapping>
     <servlet-name>AdminIndexDesignersServlet</servlet-name>
     <url-pattern>/admin/designers</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminIndexUsersServlet</servlet-name>
+    <url-pattern>/admin/users</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>

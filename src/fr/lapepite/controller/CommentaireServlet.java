@@ -55,17 +55,10 @@ public class CommentaireServlet extends HttpServlet {
 
 		try {
 
-			if (utilisateur != null) {
-				
-				commentaireServices.insertCommentaire(parametersList, utilisateur);
+			commentaireServices.insertCommentaire(parametersList, utilisateur);
 
-				response.sendRedirect(URL_PRODUCT+idProduit);
-				
-			} else {
-				response.sendRedirect(URL_LOGIN);
-			}
-			
-			
+			response.sendRedirect(URL_PRODUCT+idProduit);
+
 
 		} catch (Exception e) {
 
@@ -73,9 +66,6 @@ public class CommentaireServlet extends HttpServlet {
 			response.sendRedirect(URL_PRODUCT+idProduit);
 
 		}
-
-
-
 
 	}
 

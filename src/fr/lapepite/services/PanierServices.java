@@ -60,11 +60,8 @@ public class PanierServices {
 			lignePanierToAdd = lignePanierServices.createOneLigne_panier(bijoux, nbrBijouxCommandées);
 
 			//Ajout de la ligne au panier
-
-
 			panier.addLigneToPanier(lignePanierToAdd);
-
-			System.out.println("Ajout ligne");
+			
 		} else {
 
 			for (LignePanier lignePanier : listLignePanier) {
@@ -73,24 +70,21 @@ public class PanierServices {
 
 					lignePanierServices.addXtoQuantity(lignePanier, nbrBijouxCommandées);
 
-					System.out.println("Modifié qte");
-
 				} else {
 
 					lignePanierToAdd = lignePanierServices.createOneLigne_panier(bijoux, nbrBijouxCommandées);
 
 					//Ajout de la ligne au panier
-
-
 					panier.addLigneToPanier(lignePanierToAdd);
-
-					System.out.println("Ajout ligne");
 
 				}
 
 			}
 			
 		}
+		panier.setListProduit(listLignePanier);
+		
+		utilisateur.setPanier(panier);
 		
 		panier.updateTotal_panier();
 

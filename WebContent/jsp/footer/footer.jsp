@@ -27,22 +27,16 @@
 						<div class="col-lg-8 offset-lg-2">
 							<div class="row">
 								<div class="ressources col-lg-4 col-md-12">
-									<ul>
-										<li><a href="#">A propos</a></li>
-										<li><a href="#">Mentions légales</a></li>
-									</ul>
+								<a href="https://www.facebook.com/lapepite31/" target="_blank">
+									<img src="/LaPepite/image/facebook.png"></a>
 								</div>
 								<div class="ressources col-lg-4 col-md-12">
-									<ul>
-										<li><a href="#">Modes de livraison</a></li>
-										<li><a href="#">Moyens de paiement</a></li>
-									</ul>
+								<a href="https://www.instagram.com/lapepitebijoux/" target="_blank">
+									<img src="/LaPepite/image/instagram.png"></a>
 								</div>
 								<div class="ressources col-lg-4 col-md-12">
-									<ul>
-										<li><a href="#">Conditions Générales de Ventes</a></li>
-										<li><a href="#">Nous contacter</a></li>
-									</ul>
+								<a href="https://www.pinterest.fr/lapepitebijoux/" target="_blank">
+									<img src="/LaPepite/image/pinterest.png"></a>
 								</div>
 							</div>
 						</div>

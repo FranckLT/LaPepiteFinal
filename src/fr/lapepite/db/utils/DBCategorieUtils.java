@@ -77,8 +77,6 @@ public class DBCategorieUtils {
 			ResultSet rset = stmt.executeQuery();
 
 			while (rset.next()) {
-				
-				System.out.println("salut");
 
 				categorie = rsetToCategorie(rset);
 

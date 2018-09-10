@@ -15,6 +15,14 @@
 	
 	<div class="container mt-4">
 	
+	<c:if test="${not empty errorMessage }">
+
+		<div class="ht-tm-element alert alert-danger col-lg-6 col-md-12 offset-lg-3" role="alert">
+			<h4 class="alert-heading text-center">Erreur</h4>
+			<p class="text-center">${errorMessage }</p>
+		</div>
+	</c:if>
+	
 		<a href="/LaPepite/admin/categories/add" class="btn btn-success mb-3">Ajouter une catégorie</a>
 
 		<h2 class="col-12 text-center mb-3">Liste des catégories</h2>

@@ -7,6 +7,8 @@
 package fr.lapepite.db.utils;
 
 import fr.lapepite.javabean.Panier;
+import fr.lapepite.javabean.Utilisateur;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +17,8 @@ import java.sql.SQLException;
 public class DBPanierUtils {
 
 	private final static String QUERY_INSERT_PANIER = "INSERT INTO Panier VALUES ((?), (?), null)";
+	
+	private final static String QUERY_DELETE_PANIER = "DELETE FROM Panier WHERE id_panier=?";
 
 	public static void insertPanier( Panier panier ) throws Exception, SQLException {
 
@@ -37,6 +41,39 @@ public class DBPanierUtils {
 		} catch(Exception e){
 
 			throw new Exception("Une erreur c'est produite lors de la MAJ des données");
+
+			
+		}finally {
+			// Close the connection
+			if (con != null) {
+				try {
+					con.close();
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static void deletePanier( int idUtilisateur ) throws Exception, SQLException {
+
+		Connection con = null;
+		PreparedStatement stmtPanier = null;
+
+		try {
+
+			// Relative instruction to work with Tomcat and Mysql
+			con = ConnexionJDBC.getConnection();
+
+			stmtPanier = con.prepareStatement(QUERY_DELETE_PANIER);
+
+			stmtPanier.setInt(1, idUtilisateur);
+
+			stmtPanier.executeUpdate();
+
+		} catch(Exception e){
+
+			throw new Exception("Une erreur c'est produite lors de la suppression des données");
 
 			
 		}finally {

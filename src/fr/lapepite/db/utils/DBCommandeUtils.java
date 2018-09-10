@@ -26,16 +26,17 @@ public class DBCommandeUtils {
 	
 	private static final String QUERY_INSERT_COMMANDE = "INSERT INTO Commande VALUES (null, ?, ?, ?, ?, ?, ?)";
 	private static final String QUERY_SELECT_ALL_COMMANDE = "SELECT * FROM Commande INNER JOIN Utilisateur ON Utilisateur.id_utilisateur = Commande.id_utilisateur ORDER BY Commande.id_commande ASC";
-	private static final String QUERY_SELECT_LAST_COMMANDE = "SELECT * FROM Commande WHERE id_utilisateur=? ORDER BY id_commande DESC LIMIT 1";
+	private static final String QUERY_SELECT_LAST_COMMANDE = "SELECT * FROM Commande INNER JOIN Utilisateur ON Utilisateur.id_utilisateur = Commande.id_utilisateur WHERE Commande.id_utilisateur=? ORDER BY Commande.id_commande DESC LIMIT 1";
 	private static final String QUERY_SELECT_COMMANDE_BY_ID = "SELECT * FROM Commande INNER JOIN Utilisateur ON Utilisateur.id_utilisateur = Commande.id_utilisateur WHERE id_commande=?";
-	
+	private static final String QUERY_SELECT_COMMANDE_BY_UTILISATEUR = "SELECT * FROM Commande INNER JOIN Utilisateur ON Utilisateur.id_utilisateur = Commande.id_utilisateur WHERE Commande.id_utilisateur=?";
+
 	public static void insertCommande(Commande commande, Utilisateur utilisateur) throws Exception {
 
 		Connection con = null;
 		PreparedStatement stmtCommande = null;
 
 		try {
-
+			
 			con = ConnexionJDBC.getConnection();
 
 			stmtCommande = con.prepareStatement(QUERY_INSERT_COMMANDE);
@@ -117,7 +118,7 @@ public class DBCommandeUtils {
 		PreparedStatement stmt = null;
 		
 		try {
-
+	
 			con = ConnexionJDBC.getConnection();
 
 			stmt = con.prepareStatement(QUERY_SELECT_LAST_COMMANDE);
@@ -129,6 +130,7 @@ public class DBCommandeUtils {
 			while (rset.next()) {
 
 				commande = rsetToCommande(rset);
+				
 
 			}
 
@@ -136,6 +138,7 @@ public class DBCommandeUtils {
 
 		}
 		catch (final SQLException e) {
+			
 			throw new Exception("Une erreur c'est produite lors de la récupération des données");
 
 		}
@@ -193,21 +196,69 @@ public class DBCommandeUtils {
 		}
 	}
 	
+	public static ArrayList<Commande> selectCommandeByUtilisateur(int idUtilisateur) throws Exception {
+
+		ArrayList<Commande> listCommandes = new ArrayList<>();
+
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		try {
+
+			con = ConnexionJDBC.getConnection();
+
+			stmt = con.prepareStatement(QUERY_SELECT_COMMANDE_BY_UTILISATEUR);
+
+			stmt.setInt(1, idUtilisateur);
+
+			ResultSet rset = stmt.executeQuery();
+
+			while (rset.next()) {
+
+				Commande commande = rsetToCommande(rset);
+				listCommandes.add(commande);
+			}
+
+			return listCommandes;
+
+		}
+		catch (final SQLException e) {
+			throw new Exception("Une erreur c'est produite lors de la récupération des données");
+
+		}
+		finally {
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	
-	public static Commande rsetToCommande(ResultSet resultSet) throws SQLException {
+	
+	public static Commande rsetToCommande(ResultSet resultSet) throws Exception {
 		
 		Commande commande = new Commande();
 		
-		commande.setId_commande(resultSet.getInt("id_commande"));
-		commande.setDate_commande(resultSet.getDate("date_commande"));
-		commande.setTotalHT_commande(resultSet.getDouble("totalHT_commande"));
-		commande.setTVA_commande(resultSet.getDouble("TVA_commande"));
-		commande.setTotalTTC_commande(resultSet.getDouble("totalTTC_commande"));
-		commande.setCheked(resultSet.getBoolean("cheked"));
-		Utilisateur utilisateur = DBUtilisateurUtils.rsetToUser(resultSet);
-		commande.setUtilisateur(utilisateur);
+		try {
+			commande.setId_commande(resultSet.getInt("id_commande"));
+			commande.setDate_commande(resultSet.getDate("date_commande"));
+			commande.setTotalHT_commande(resultSet.getDouble("totalHT_commande"));
+			commande.setTVA_commande(resultSet.getDouble("TVA_commande"));
+			commande.setTotalTTC_commande(resultSet.getDouble("totalTTC_commande"));
+			commande.setCheked(resultSet.getBoolean("cheked"));
+			Utilisateur utilisateur = DBUtilisateurUtils.rsetToUser(resultSet);
+			commande.setUtilisateur(utilisateur);
+			
+			return commande;
+		} catch (Exception e) {
+			throw new Exception("Une erreur c'est produite dans la requete");
+		}
 		
-		return commande;
+		
 		
 	}
 
